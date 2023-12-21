@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 const white = Color(0xFFFFFFFF);
 const black = Color(0xFF000000);
 
+const unlockBGLinear = LinearGradient(
+  colors: [
+    Color(0xFF2A2D32),
+    Color(0xFF161719),
+  ],
+  // stops: [0.2, 1],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+);
 const lockBGLinear = LinearGradient(
   colors: [
     Color(0xFF292C31),
