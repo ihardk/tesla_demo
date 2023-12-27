@@ -10,10 +10,12 @@ double radius = 135;
 double strokeWidth = 30;
 
 class RoundedProgress extends StatefulWidget {
-  final String icon;
+  final bool btnActive;
+  final int? count;
   const RoundedProgress({
     super.key,
-    required this.icon,
+    this.count = 0,
+    this.btnActive = false,
   });
 
   @override
@@ -55,8 +57,9 @@ class _RoundedProgressState extends State<RoundedProgress> {
 
   Container _topCircle() {
     return Container(
-      height: SizeConfig.screenHeight * 0.12,
-      width: SizeConfig.screenWidth * 0.265,
+      height: SizeConfig.screenHeight * 0.15,
+      width: SizeConfig.screenWidth * 0.32,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           border: Border.all(color: const Color(0x7032363B), width: 2),
@@ -69,14 +72,21 @@ class _RoundedProgressState extends State<RoundedProgress> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           )),
-      // child: Image.asset(icon),
+      child: Text(
+        '${widget.btnActive ? widget.count : ''}',
+        style: TextStyle(
+          fontSize: SizeConfig.blockSizeHorizontal * 10,
+          fontWeight: FontWeight.w600,
+          color: const Color(0xFFEEEEEE),
+        ),
+      ),
     );
   }
 
   Container _middleCircle2() {
     return Container(
-      height: SizeConfig.screenHeight * 0.18,
-      width: SizeConfig.screenWidth * 0.38,
+      height: SizeConfig.screenHeight * 0.22,
+      width: SizeConfig.screenWidth * 0.46,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         // color: black,
@@ -126,12 +136,12 @@ class _ProgressArcState extends State<ProgressArc> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size / 2;
-    Size canvasSize = Size(screenSize.width * 0.9, screenSize.width * 0.9);
+    Size canvasSize = Size(screenSize.width * 1.2, screenSize.width * 1.2);
     Offset center = canvasSize.center(Offset.zero);
     Offset knobPos = toPolar(
-      center - Offset(strokeWidth * 0.8, strokeWidth * 1.5),
+      center - Offset(strokeWidth * 0.8, strokeWidth * 1.38),
       currentAngle + startAngle,
-      radius - 30,
+      radius - 20,
     );
 
     return Stack(
@@ -180,7 +190,7 @@ class ArcPaint extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Offset center = size.center(Offset.zero);
 
-    Rect rect = Rect.fromCircle(center: center, radius: radius - 63);
+    Rect rect = Rect.fromCircle(center: center, radius: radius - 50);
 
     final paint = Paint()
       ..shader = const SweepGradient(

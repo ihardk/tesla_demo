@@ -9,9 +9,25 @@ import '../constants/size_config.dart';
 import '../widgets/round_icon_button.dart';
 import '../widgets/round_progress.dart';
 
-class ClimateScreen extends StatelessWidget {
+class ClimateScreen extends StatefulWidget {
   const ClimateScreen({super.key});
 
+  @override
+  State<ClimateScreen> createState() => _ClimateScreenState();
+}
+
+class _ClimateScreenState extends State<ClimateScreen> {
+  bool bottomModal = false;
+  int? selectdItem;
+  final List menuList = [
+    {"id": 0, "title": "Ac", "icon": ac},
+    {"id": 1, "title": "Fan", "icon": fan},
+    {"id": 2, "title": "Heat", "icon": heat},
+    {"id": 3, "title": "Auto", "icon": auto},
+    {"id": 4, "title": "Auto", "icon": auto},
+    {"id": 5, "title": "Auto", "icon": auto},
+    {"id": 6, "title": "Auto", "icon": auto},
+  ];
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -62,43 +78,120 @@ class ClimateScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Gap(150),
-                const RoundedProgress(icon: setting),
+                RoundedProgress(
+                  btnActive: bottomModal,
+                  count: selectdItem,
+                ),
                 const Gap(60),
                 Expanded(
                     child: SingleChildScrollView(
                   child: Column(
-                    children: List.generate(
-                      10,
-                      (index) => const SliderUnit(title: "Heat", icon: setting),
-                    ),
-                  ),
+                      children: List.generate(menuList.length, (index) {
+                    return SliderUnit(
+                      title: menuList[index]['title'],
+                      icon: menuList[index]['icon'],
+                      btnActive:
+                          (selectdItem == index && bottomModal) ? true : false,
+                      onActiveBtn: () {
+                        if (menuList[index]['id'] == index) {
+                          setState(() {
+                            selectdItem = index;
+                            bottomModal = true;
+                          });
+                        }
+                      },
+                    );
+                  })),
                 ))
-                // SliderUnit(title: "Ac", icon: setting),
-                // SliderUnit(title: "Fan", icon: setting),
-                // SliderUnit(title: "Heat", icon: setting),
-                // SliderUnit(title: "Auto", icon: setting),
               ],
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: SizeConfig.screenHeight * 0.15,
-              child: Stack(
-                children: [
-                  const BlurryEffect(0.5, 7, Color(0x30000000)),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
+            if (bottomModal)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: SizeConfig.screenHeight * 0.15,
+                child: Stack(
+                  children: [
+                    const BlurryEffect(0.5, 7, Color(0x30000000)),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: SizeConfig.safeBlockVertical * 3,
+                          horizontal: SizeConfig.safeBlockHorizontal * 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    bottomModal = false;
+                                  });
+                                },
+                                child: Image.asset(onoff),
+                              ),
+                              const Gap(10),
+                              InkWell(
+                                child: Image.asset(
+                                  leftarrow,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "20°",
+                                style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.safeBlockHorizontal * 7,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              InkWell(
+                                child: Image.asset(
+                                  rightarrow,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Gap(10),
+                              InkWell(
+                                child: Image.asset(vent),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "On",
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "Vent",
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -135,10 +228,14 @@ class BlurryEffect extends StatelessWidget {
 class SliderUnit extends StatefulWidget {
   final String title;
   final String icon;
+  final Function()? onActiveBtn;
+  final bool? btnActive;
   const SliderUnit({
     super.key,
     required this.title,
     required this.icon,
+    this.onActiveBtn,
+    this.btnActive,
   });
 
   @override
@@ -171,7 +268,11 @@ class _SliderUnitState extends State<SliderUnit> {
                   ),
                 ),
                 const Gap(15),
-                RoundedIconButton(icon: widget.icon),
+                RoundedIconButton(
+                  icon: widget.icon,
+                  onTap: widget.onActiveBtn,
+                  btnActive: widget.btnActive,
+                ),
                 const Gap(25),
                 Expanded(
                     child: Container(
@@ -206,12 +307,6 @@ class _SliderUnitState extends State<SliderUnit> {
             decoration: BoxDecoration(
               // color: Colors.red,
               boxShadow: const [
-                // BoxShadow(
-                //   color: Colors.white30,
-                //   blurRadius: 1.5,
-                //   spreadRadius: -0.5,
-                //   offset: Offset(0, 2),
-                // ),
                 BoxShadow(
                   color: Colors.black,
                   blurRadius: 5,
