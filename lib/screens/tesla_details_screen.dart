@@ -12,19 +12,50 @@ class TeslaDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
-            children: [
-              const Gap(120),
-              CustomPaint(
-                size: Size(
-                  300,
-                  (300 * 0.17).toDouble(),
-                ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                painter: BatteryPaint(value: 1),
-              )
-            ],
+            children: const [Gap(120), MyGlowSlider()],
           ),
         ),
       ),
+    );
+  }
+}
+
+class MyGlowSlider extends StatefulWidget {
+  const MyGlowSlider({
+    super.key,
+  });
+
+  @override
+  State<MyGlowSlider> createState() => _MyGlowSliderState();
+}
+
+class _MyGlowSliderState extends State<MyGlowSlider> {
+  var value = 0.5;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "${(value * 100).toStringAsFixed(1)}%",
+          style: const TextStyle(
+            fontSize: 50,
+            color: Colors.white,
+          ),
+        ),
+        CustomPaint(
+          size: Size(
+            300,
+            (300 * 0.17).toDouble(),
+          ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+          painter: BatteryPaint(value: value),
+        ),
+        Slider(
+          value: value,
+          onChanged: (value) => setState(() {
+            this.value = value;
+          }),
+        )
+      ],
     );
   }
 }
@@ -54,10 +85,13 @@ class BatteryPaint extends CustomPainter {
   void _batteryShape(Size size, Canvas canvas) {
     valueFilledWidth = size.width * value;
     Paint topPaint = _batteryPaint(size, valueFilledWidth);
-    filledPath = _drawBatteryPath(height: size.height, width: valueFilledWidth);
+    if (value > 0.04) {
+      filledPath =
+          _drawBatteryPath(height: size.height, width: valueFilledWidth);
+    }
     topPath = _drawBatteryPath(height: size.height, width: size.width);
     _drawBatteryBorder(size, canvas);
-    _bottomRect(size, canvas);
+    if (value > 0.04) _bottomRect(size, canvas);
     canvas.drawPath(filledPath, topPaint);
   }
 
@@ -88,23 +122,10 @@ class BatteryPaint extends CustomPainter {
       width * 0.9500000,
       0,
     );
-    path.cubicTo(
-      width * 0.7250000,
-      0,
-      width * 0.2750000,
-      0,
-      width * 0.0500000,
-      0,
-    );
-    path.cubicTo(
-      width * 0.0250000,
-      height * 0.1425000,
-      width * 0.0075000,
-      height * 0.6075000,
-      0,
-      height * 0.8100000,
-    );
-    path.quadraticBezierTo(0, height * 0.8575000, -1, height);
+    path.lineTo(12, 0);
+
+    path.lineTo(0, height * 0.8575000);
+    path.lineTo(0, height);
     path.close();
 
     return path;
@@ -121,7 +142,9 @@ class BatteryPaint extends CustomPainter {
     topPaint.shader = ui.Gradient.linear(
       Offset(width * 0.50, size.height * 0.50),
       Offset(width * 0.50, size.height),
-      [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
+      value < 0.3
+          ? [Colors.orange, Colors.red]
+          : [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
       [0.4, 1.0],
     );
     return topPaint;
@@ -147,7 +170,10 @@ class BatteryPaint extends CustomPainter {
     glowPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
       Offset(size.width * 0.50, size.height),
-      [const Color(0x229EECD9), const Color(0x559EECD9)],
+      [
+        value > 0.3 ? const Color(0x559EECD9) : const Color(0x53F3B320),
+        const Color(0x53F3B320)
+      ],
       [0.3, 1.0],
     );
     glowPaint.maskFilter = const MaskFilter.blur(BlurStyle.inner, 4);
@@ -160,7 +186,7 @@ class BatteryPaint extends CustomPainter {
       [
         const Offset(0, -50),
         Offset(valueFilledWidth, -50),
-        Offset(valueFilledWidth - 15, 20),
+        Offset(valueFilledWidth - 8, 20),
         const Offset(10, 20),
       ],
       true,
