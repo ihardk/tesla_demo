@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
 import '../constants/size_config.dart';
+import '../widgets/round_icon_button.dart';
+import '../widgets/round_progress.dart';
 
 class ClimateScreen extends StatelessWidget {
   const ClimateScreen({super.key});
@@ -51,18 +55,77 @@ class ClimateScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: homeBGLinear,
         ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Gap(200),
-            RoundedProgress(icon: setting),
-            Gap(50),
-            SliderUnit(title: "Ac", icon: setting),
-            SliderUnit(title: "Fan", icon: setting),
-            SliderUnit(title: "Heat", icon: setting),
-            SliderUnit(title: "Auto", icon: setting),
+        child: Stack(
+          children: [
+            Column(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Gap(150),
+                const RoundedProgress(icon: setting),
+                const Gap(60),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    children: List.generate(
+                      10,
+                      (index) => const SliderUnit(title: "Heat", icon: setting),
+                    ),
+                  ),
+                ))
+                // SliderUnit(title: "Ac", icon: setting),
+                // SliderUnit(title: "Fan", icon: setting),
+                // SliderUnit(title: "Heat", icon: setting),
+                // SliderUnit(title: "Auto", icon: setting),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: SizeConfig.screenHeight * 0.15,
+              child: Stack(
+                children: [
+                  const BlurryEffect(0.5, 7, Color(0x30000000)),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BlurryEffect extends StatelessWidget {
+  final double opacity;
+  final double blurry;
+  final Color shade;
+
+  const BlurryEffect(this.opacity, this.blurry, this.shade, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(30),
+        topRight: Radius.circular(30),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blurry, sigmaY: blurry),
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(color: shade.withOpacity(opacity)),
         ),
       ),
     );
@@ -83,12 +146,6 @@ class SliderUnit extends StatefulWidget {
 }
 
 class _SliderUnitState extends State<SliderUnit> {
-  // final double _value = 0.0;
-  // final bool _isDragging = false;
-  // final bool _isSlideCompleted = false;
-
-  // late AnimationController _controller;
-  // late Animation<double> _animation;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -175,137 +232,6 @@ class _SliderUnitState extends State<SliderUnit> {
             ),
           ),
         )
-      ],
-    );
-  }
-}
-
-class RoundedProgress extends StatelessWidget {
-  final String icon;
-  const RoundedProgress({
-    super.key,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          height: SizeConfig.screenHeight * 0.2,
-          width: SizeConfig.screenWidth * 0.42,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.white30,
-                blurRadius: 40,
-                spreadRadius: -10,
-                offset: Offset(-15, -8),
-              )
-            ],
-          ),
-        ),
-        Container(
-          height: SizeConfig.screenHeight * 0.18,
-          width: SizeConfig.screenWidth * 0.38,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            // color: black,
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFF2B2F33),
-                Color(0xFF101113),
-              ],
-              stops: [0.1, 0.9],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
-        Container(
-          height: SizeConfig.screenHeight * 0.12,
-          width: SizeConfig.screenWidth * 0.265,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: const Color(0x7032363B), width: 2),
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF101113),
-                  Color(0xFF2B2F33),
-                ],
-                stops: [0.1, 0.85],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )),
-          // child: Image.asset(icon),
-        ),
-      ],
-    );
-  }
-}
-
-class RoundedIconButton extends StatelessWidget {
-  final String icon;
-  const RoundedIconButton({
-    super.key,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          height: SizeConfig.screenHeight * 0.06,
-          width: SizeConfig.screenWidth * 0.13,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            // color: black,
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFF000000),
-                Color(0x22FFFFFF),
-              ],
-              stops: [0.5, 1],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        Container(
-          height: SizeConfig.screenHeight * 0.065,
-          width: SizeConfig.screenWidth * 0.14,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.white30,
-                blurRadius: 20,
-                spreadRadius: -5,
-                offset: Offset(-4, -4),
-              )
-            ],
-          ),
-        ),
-        Container(
-          height: SizeConfig.screenHeight * 0.055,
-          width: SizeConfig.screenWidth * 0.12,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFF545659),
-                Color(0xFF232629),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: Image.asset(icon),
-        ),
       ],
     );
   }

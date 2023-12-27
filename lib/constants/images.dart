@@ -23,3 +23,5 @@ const String explore4 = "assets/images/Explore4.png";
 const String location = "assets/images/location.png";
 const String climate3 = "assets/images/climate3.png";
 const String plus = "assets/images/plus.png";
+const String onoff = "assets/images/onoff.png";
+const String vent = "assets/images/vents.png";
