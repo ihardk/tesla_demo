@@ -273,59 +273,86 @@ class _SliderUnitState extends State<SliderUnit> {
                   onTap: widget.onActiveBtn,
                   btnActive: widget.btnActive,
                 ),
-                const Gap(25),
-                Expanded(
-                    child: Container(
-                  height: SizeConfig.screenHeight * 0.002,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    // color: const Color(0xFF1C1D20),
-                    // color: Colors.red,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.white30,
-                        blurRadius: 1.5,
-                        spreadRadius: -0.5,
-                        offset: Offset(0, 2),
-                      ),
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 1,
-                        spreadRadius: 0.2,
-                        offset: Offset(0, 0),
-                      )
-                    ],
-                  ),
-                )),
+                // const Gap(10),
+                const Expanded(child: MyGlowSlider()),
+                // Expanded(
+                //     child: Container(
+                //   height: SizeConfig.screenHeight * 0.002,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(10),
+                //     // color: const Color(0xFF1C1D20),
+                //     // color: Colors.red,
+                //     boxShadow: const [
+                //       BoxShadow(
+                //         color: Colors.white30,
+                //         blurRadius: 1.5,
+                //         spreadRadius: -0.5,
+                //         offset: Offset(0, 2),
+                //       ),
+                //       BoxShadow(
+                //         color: Colors.black,
+                //         blurRadius: 1,
+                //         spreadRadius: 0.2,
+                //         offset: Offset(0, 0),
+                //       )
+                //     ],
+                //   ),
+                // )),
               ]),
         ),
-        Positioned(
-          left: SizeConfig.blockSizeHorizontal * 40,
-          child: Container(
-            height: SizeConfig.screenHeight * 0.015,
-            width: SizeConfig.screenWidth * 0.07,
-            decoration: BoxDecoration(
-              // color: Colors.red,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5,
-                  spreadRadius: 3,
-                  offset: Offset(2, 2),
-                )
-              ],
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF2E3236),
-                  Color(0xFF141515),
-                ],
-                stops: [0, 1],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+        // Positioned(
+        //   left: SizeConfig.blockSizeHorizontal * 40,
+        //   child: Container(
+        //     height: SizeConfig.screenHeight * 0.015,
+        //     width: SizeConfig.screenWidth * 0.07,
+        //     decoration: BoxDecoration(
+        //       // color: Colors.red,
+        //       boxShadow: const [
+        //         BoxShadow(
+        //           color: Colors.black,
+        //           blurRadius: 5,
+        //           spreadRadius: 3,
+        //           offset: Offset(2, 2),
+        //         )
+        //       ],
+        //       gradient: const LinearGradient(
+        //         colors: [
+        //           Color(0xFF2E3236),
+        //           Color(0xFF141515),
+        //         ],
+        //         stops: [0, 1],
+        //         begin: Alignment.topCenter,
+        //         end: Alignment.bottomCenter,
+        //       ),
+        //       borderRadius: BorderRadius.circular(10),
+        //     ),
+        //   ),
+        // )
+      ],
+    );
+  }
+}
+
+class MyGlowSlider extends StatefulWidget {
+  const MyGlowSlider({
+    super.key,
+  });
+
+  @override
+  State<MyGlowSlider> createState() => _MyGlowSliderState();
+}
+
+class _MyGlowSliderState extends State<MyGlowSlider> {
+  var value = 0.5;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Slider(
+          value: value,
+          onChanged: (value) => setState(() {
+            this.value = value;
+          }),
         )
       ],
     );
