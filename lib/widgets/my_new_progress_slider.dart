@@ -18,12 +18,14 @@ class CustomSlider extends StatefulWidget {
   final int? assetImageHeight;
   final int? assetImageWidth;
   final int? divisions;
+  final ValueChanged<double> onChanged;
 
   const CustomSlider({
     Key? key,
     this.assetImage,
     this.linearGradient,
     this.inActiveTrackColor,
+    required this.onChanged,
     this.activeTrackColor,
     this.activeInnerTrackColor,
     required this.trackHeight,
@@ -85,10 +87,13 @@ class _CustomSliderState extends State<CustomSlider> {
         thumbShape: isImage
             ? SliderThumbImage(
                 image: customImage!,
+                min: widget.min,
+                max: widget.max,
                 innerThumbColor: widget.activeInnerTrackColor,
               )
             : SliderThumbImage(
-                max: 5,
+                min: widget.min,
+                max: widget.max,
                 innerThumbColor: widget.activeInnerTrackColor,
               ),
       ),
@@ -97,6 +102,7 @@ class _CustomSliderState extends State<CustomSlider> {
         max: widget.max,
         divisions: widget.divisions,
         onChanged: (double value) {
+          widget.onChanged(value);
           setState(() {
             intValue = value;
           });
@@ -209,8 +215,8 @@ class GradientSliderTrackShape extends SliderTrackShape
 class SliderThumbImage extends SliderComponentShape {
   final ui.Image? image;
   final double thumbRadius;
-  final int min;
-  final int max;
+  final double min;
+  final double max;
   final Color? innerThumbColor;
 
   const SliderThumbImage({
@@ -293,7 +299,7 @@ class SliderThumbImage extends SliderComponentShape {
   }
 
   String getValue(double value) {
-    return (min + (max - min) * value).round().toString();
+    return (min + (max - min) * value * 100).round().toString();
   }
 }
 

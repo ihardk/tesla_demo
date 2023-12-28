@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:tesla_demo/constants/my_colors.dart';
 
 import 'dart:ui' as ui;
+
+import 'package:tesla_demo/widgets/my_new_progress_slider.dart';
 
 class TeslaDetailsScreen extends StatelessWidget {
   const TeslaDetailsScreen({super.key});
@@ -49,11 +52,20 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
           painter: BatteryPaint(value: value),
         ),
-        Slider(
-          value: value,
-          onChanged: (value) => setState(() {
-            this.value = value;
-          }),
+        const Gap(80),
+        CustomSlider(
+          trackHeight: 10,
+          max: 1,
+          onChanged: (value) {
+            setState(() {
+              this.value = value;
+            });
+          },
+          inActiveTrackColor: kcBGGrey,
+          activeTrackColor: Colors.cyan,
+          linearGradient:
+              const LinearGradient(colors: [Colors.cyan, Colors.blue]),
+          min: 0,
         )
       ],
     );
