@@ -28,8 +28,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
       children: [
         _outsideShadow(),
         _middleCircle2(),
-        Visibility(visible: widget.btnActive, child: _middleCircle()
-        ),
+        Visibility(visible: widget.btnActive, child: _middleCircle()),
         _topCircle(),
       ],
     );
@@ -105,7 +104,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
     return ProgressArc(
       count: (widget.count ?? 0).toDouble(),
       min: 0,
-      max: 21,
+      max: 20,
       // onAngleChanged: (value) {
       //   volume = ((value / (pi * 2)) * 100).toInt();
       //   setState(() {});

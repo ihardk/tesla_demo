@@ -371,7 +371,7 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
       children: [
         CustomSlider2(
           trackHeight: SizeConfig.screenHeight * 0.003,
-          max: 21,
+          max: 20,
           onChanged: widget.onSliderAction,
           btnActive: widget.btnActive,
           inActiveTrackColor: const Color(0xFF1C1D20),
