@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
 import '../constants/size_config.dart';
+import '../widgets/custome_slider.dart';
 import '../widgets/round_icon_button.dart';
 import '../widgets/round_progress.dart';
 
@@ -19,6 +21,7 @@ class ClimateScreen extends StatefulWidget {
 class _ClimateScreenState extends State<ClimateScreen> {
   bool bottomModal = false;
   int? selectdItem;
+  int? counter;
   final List menuList = [
     {"id": 0, "title": "Ac", "icon": ac},
     {"id": 1, "title": "Fan", "icon": fan},
@@ -80,7 +83,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
                 const Gap(150),
                 RoundedProgress(
                   btnActive: bottomModal,
-                  count: selectdItem,
+                  count: counter ?? 0,
                 ),
                 const Gap(60),
                 Expanded(
@@ -99,6 +102,13 @@ class _ClimateScreenState extends State<ClimateScreen> {
                             bottomModal = true;
                           });
                         }
+                      },
+                      onSliderAction: (value) {
+                        log("value ${(1.6 + 6.2 / value)}");
+
+                        setState(() {
+                          counter = (value).toInt();
+                        });
                       },
                     );
                   })),
@@ -230,12 +240,14 @@ class SliderUnit extends StatefulWidget {
   final String icon;
   final Function()? onActiveBtn;
   final bool? btnActive;
+  final Function(double) onSliderAction;
   const SliderUnit({
     super.key,
     required this.title,
     required this.icon,
     this.onActiveBtn,
     this.btnActive,
+    required this.onSliderAction,
   });
 
   @override
@@ -274,7 +286,12 @@ class _SliderUnitState extends State<SliderUnit> {
                   btnActive: widget.btnActive,
                 ),
                 // const Gap(10),
-                const Expanded(child: MyGlowSlider()),
+                Expanded(
+                  child: MyGlowSlider(
+                    btnActive: widget.btnActive,
+                    onSliderAction: widget.onSliderAction,
+                  ),
+                ),
                 // Expanded(
                 //     child: Container(
                 //   height: SizeConfig.screenHeight * 0.002,
@@ -334,8 +351,12 @@ class _SliderUnitState extends State<SliderUnit> {
 }
 
 class MyGlowSlider extends StatefulWidget {
+  final bool? btnActive;
+  final Function(double) onSliderAction;
   const MyGlowSlider({
     super.key,
+    this.btnActive,
+    required this.onSliderAction,
   });
 
   @override
@@ -348,12 +369,19 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Slider(
-          value: value,
-          onChanged: (value) => setState(() {
-            this.value = value;
-          }),
-        )
+        CustomSlider2(
+          trackHeight: SizeConfig.screenHeight * 0.003,
+          max: 21,
+          onChanged: widget.onSliderAction,
+          btnActive: widget.btnActive,
+          inActiveTrackColor: const Color(0xFF1C1D20),
+          activeTrackColor: Colors.cyan,
+          linearGradient: const LinearGradient(colors: [
+            Colors.cyan,
+            Colors.blue,
+          ]),
+          min: 0,
+        ),
       ],
     );
   }
