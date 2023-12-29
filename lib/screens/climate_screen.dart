@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
+import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 import '../widgets/blurry_effect_widget.dart';
 import '../widgets/round_icon_button.dart';
@@ -126,7 +127,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
                           vertical: SizeConfig.safeBlockVertical * 3,
                           horizontal: SizeConfig.safeBlockHorizontal * 8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: kcWhite.withOpacity(0.2),
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(30),
                           topRight: Radius.circular(30),
@@ -151,7 +152,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
                               InkWell(
                                 child: Image.asset(
                                   leftarrow,
-                                  color: Colors.white,
+                                  color: kcWhite,
                                 ),
                               ),
                               Text(
@@ -159,13 +160,13 @@ class _ClimateScreenState extends State<ClimateScreen> {
                                 style: TextStyle(
                                     fontSize:
                                         SizeConfig.safeBlockHorizontal * 7,
-                                    color: Colors.white,
+                                    color: kcWhite,
                                     fontWeight: FontWeight.bold),
                               ),
                               InkWell(
                                 child: Image.asset(
                                   rightarrow,
-                                  color: Colors.white,
+                                  color: kcWhite,
                                 ),
                               ),
                               const Gap(10),
@@ -181,14 +182,14 @@ class _ClimateScreenState extends State<ClimateScreen> {
                                 "On",
                                 style: TextStyle(
                                   fontSize: SizeConfig.safeBlockHorizontal * 4,
-                                  color: Colors.white,
+                                  color: kcWhite,
                                 ),
                               ),
                               Text(
                                 "Vent",
                                 style: TextStyle(
                                   fontSize: SizeConfig.safeBlockHorizontal * 4,
-                                  color: Colors.white,
+                                  color: kcWhite,
                                 ),
                               ),
                             ],

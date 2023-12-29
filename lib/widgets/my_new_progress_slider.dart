@@ -243,7 +243,7 @@ class SliderThumbImage extends SliderComponentShape {
     Paint paint = Paint()..filterQuality = FilterQuality.high;
 
     paint = Paint()
-      ..color = Colors.white //Thumb Background Color
+      ..color = kcWhite //Thumb Background Color
       ..style = PaintingStyle.fill;
 
     TextSpan span = TextSpan(

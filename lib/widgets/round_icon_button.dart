@@ -54,7 +54,7 @@ class RoundedIconButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.white30,
+                  color: kcWhite10,
                   blurRadius: 20,
                   spreadRadius: -5,
                   offset: Offset(-4, -4),

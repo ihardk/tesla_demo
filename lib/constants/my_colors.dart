@@ -7,6 +7,7 @@ const kcTransparent = Color(0x00363636);
 const kcLabelGrey = Color(0xff4a4a4a);
 const kcLabelGreyLight = Color(0xFF6C6C6C);
 const kcWhite = Color(0xffffffff);
+const kcWhite10 = Color(0x11ffffff);
 const kcBlack = Color(0x00000000);
 
 const kcPrimary = Color(0xFF005EA3);

@@ -42,7 +42,7 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           "${(value * 100).toStringAsFixed(1)}%",
           style: const TextStyle(
             fontSize: 50,
-            color: Colors.white,
+            color: kcWhite,
           ),
         ),
         CustomPaint(

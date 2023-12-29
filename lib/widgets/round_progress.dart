@@ -43,7 +43,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
         borderRadius: BorderRadius.circular(100),
         boxShadow: const [
           BoxShadow(
-            color: Colors.white30,
+            color: kcWhite10,
             blurRadius: 40,
             spreadRadius: -10,
             offset: Offset(-15, -8),

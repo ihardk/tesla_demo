@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
+import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 import '../widgets/round_icon_button.dart';
 
@@ -73,7 +74,7 @@ class UnLockScreen extends StatelessWidget {
                       offset: Offset(0, 0),
                     ),
                     BoxShadow(
-                      color: Colors.white10,
+                      color: kcWhite10,
                       blurRadius: 11,
                       spreadRadius: -11,
                       offset: Offset(3, 3),
