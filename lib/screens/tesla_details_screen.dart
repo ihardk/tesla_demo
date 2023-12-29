@@ -205,8 +205,8 @@ class BatteryPaint extends CustomPainter {
               Colors.red,
             ]
           : [
-              const Color(0xFF2FB8FF),
-              const Color(0xFF9EECD9),
+              kcPrimaryDark,
+              kcPrimary,
             ],
       // : [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
       [-1, 0.8],
@@ -226,8 +226,8 @@ class BatteryPaint extends CustomPainter {
       Offset(size.width * 0.50, size.height * 0.50),
       Offset(size.width * 0.50, size.height),
       [
-        const Color(0xFF9EECD9),
-        const Color(0xff2FB8FF),
+        kcPrimary,
+        kcPrimaryDark,
       ],
       [0.4, 1.0],
     );
