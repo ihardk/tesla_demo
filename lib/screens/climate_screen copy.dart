@@ -369,7 +369,7 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomSlider2(
+        CustomSlider(
           trackHeight: SizeConfig.screenHeight * 0.003,
           max: 20,
           onChanged: widget.onSliderAction,

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 
-class CustomSlider2 extends StatefulWidget {
+class CustomSlider extends StatefulWidget {
   final String? assetImage;
   final LinearGradient? linearGradient;
   final Color? inActiveTrackColor;
@@ -22,7 +22,7 @@ class CustomSlider2 extends StatefulWidget {
 
   final bool? btnActive;
 
-  const CustomSlider2({
+  const CustomSlider({
     Key? key,
     this.assetImage,
     this.linearGradient,
@@ -40,10 +40,10 @@ class CustomSlider2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomSlider2> createState() => _CustomSlider2State();
+  State<CustomSlider> createState() => _CustomSliderState();
 }
 
-class _CustomSlider2State extends State<CustomSlider2> {
+class _CustomSliderState extends State<CustomSlider> {
   double intValue = 0;
   ui.Image? customImage;
 
@@ -80,16 +80,7 @@ class _CustomSlider2State extends State<CustomSlider2> {
             GradientSliderTrackShape(linearGradient: widget.linearGradient),
         trackHeight: widget.trackHeight,
         overlayColor: kcLabelGrey,
-        thumbShape:
-            //  isImage
-            // ? SliderThumbImage(
-            //     image: customImage!,
-            //     min: widget.min,
-            //     max: widget.max,
-            //     innerThumbColor: widget.activeInnerTrackColor,
-            //   )
-            // :
-            SliderThumbImage(
+        thumbShape: SliderThumbImage(
           min: widget.min,
           max: widget.max,
           innerThumbColor: widget.activeInnerTrackColor,
@@ -171,19 +162,30 @@ class GradientSliderTrackShape extends SliderTrackShape
     );
 
     final ColorTween activeTrackColorTween = ColorTween(
-        begin: sliderTheme.disabledActiveTrackColor,
-        end: sliderTheme.activeTrackColor);
+      begin: sliderTheme.disabledActiveTrackColor,
+      end: sliderTheme.activeTrackColor,
+    );
+
     final ColorTween inactiveTrackColorTween = ColorTween(
       begin: sliderTheme.disabledInactiveTrackColor?.withOpacity(0.1),
       end: sliderTheme.inactiveTrackColor?.withOpacity(1.0),
     );
+
     final Paint activePaint = Paint()
       ..shader = linearGradient!.createShader(activeGradientRect)
       ..color = activeTrackColorTween.evaluate(enableAnimation)!;
+
+    final Paint glowPaint = Paint()
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10.0)
+      ..shader = linearGradient!.createShader(activeGradientRect)
+      ..color = activeTrackColorTween.evaluate(enableAnimation)!;
+
     final Paint inactivePaint = Paint()
       ..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
+
     final Paint leftTrackPaint;
     final Paint rightTrackPaint;
+
     switch (textDirection) {
       case TextDirection.ltr:
         leftTrackPaint = activePaint;
@@ -198,16 +200,23 @@ class GradientSliderTrackShape extends SliderTrackShape
     final Rect leftTrackSegment = Rect.fromLTRB(
         trackRect.left, trackRect.top, thumbCenter.dx, trackRect.bottom);
     if (!leftTrackSegment.isEmpty) {
+      context.canvas.drawRect(leftTrackSegment, glowPaint);
       context.canvas.drawRect(leftTrackSegment, leftTrackPaint);
       context.canvas.drawCircle(
-          trackRect.centerLeft, sliderTheme.trackHeight! / 2, leftTrackPaint);
+        trackRect.centerLeft,
+        sliderTheme.trackHeight! / 2,
+        leftTrackPaint,
+      );
     }
     final Rect rightTrackSegment = Rect.fromLTRB(
         thumbCenter.dx, trackRect.top, trackRect.right, trackRect.bottom);
     if (!rightTrackSegment.isEmpty) {
       context.canvas.drawRect(rightTrackSegment, rightTrackPaint);
       context.canvas.drawCircle(
-          trackRect.centerRight, sliderTheme.trackHeight! / 2, rightTrackPaint);
+        trackRect.centerRight,
+        sliderTheme.trackHeight! / 2,
+        rightTrackPaint,
+      );
     }
   }
 }

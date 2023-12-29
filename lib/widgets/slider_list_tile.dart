@@ -3,18 +3,21 @@ import 'package:gap/gap.dart';
 import 'package:tesla_demo/widgets/round_icon_button.dart';
 
 import '../constants/size_config.dart';
+import 'custome_slider.dart';
 
 class SliderListTile extends StatefulWidget {
   final String title;
   final String icon;
   final Function()? onActiveBtn;
   final bool? btnActive;
+  final Function(double) onSliderAction;
   const SliderListTile({
     super.key,
     required this.title,
     required this.icon,
     this.onActiveBtn,
     this.btnActive,
+    required this.onSliderAction,
   });
 
   @override
@@ -50,7 +53,12 @@ class _SliderListTileState extends State<SliderListTile> {
                 onTap: widget.onActiveBtn,
                 btnActive: widget.btnActive,
               ),
-              const Expanded(child: MyGlowSlider()),
+              Expanded(
+                child: MyGlowSlider(
+                  btnActive: widget.btnActive,
+                  onSliderAction: widget.onSliderAction,
+                ),
+              ),
             ],
           ),
         ),
@@ -60,8 +68,12 @@ class _SliderListTileState extends State<SliderListTile> {
 }
 
 class MyGlowSlider extends StatefulWidget {
+  final bool? btnActive;
+  final Function(double) onSliderAction;
   const MyGlowSlider({
     super.key,
+    this.btnActive,
+    required this.onSliderAction,
   });
 
   @override
@@ -74,12 +86,19 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Slider(
-          value: value,
-          onChanged: (value) => setState(() {
-            this.value = value;
-          }),
-        )
+        CustomSlider(
+          trackHeight: SizeConfig.screenHeight * 0.008,
+          max: 21,
+          onChanged: widget.onSliderAction,
+          btnActive: widget.btnActive,
+          inActiveTrackColor: const Color(0xFF1C1D20),
+          activeTrackColor: Colors.cyan,
+          linearGradient: const LinearGradient(colors: [
+            Colors.cyan,
+            Colors.blue,
+          ]),
+          min: 0,
+        ),
       ],
     );
   }
