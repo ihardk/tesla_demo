@@ -4,7 +4,7 @@ import 'package:tesla_demo/constants/my_colors.dart';
 import 'package:tesla_demo/widgets/round_icon_button.dart';
 
 import '../constants/size_config.dart';
-import 'custome_slider.dart';
+import 'custom_slider.dart';
 
 class SliderListTile extends StatefulWidget {
   final String title;
@@ -94,10 +94,12 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           btnActive: widget.btnActive,
           inActiveTrackColor: const Color(0xFF1C1D20),
           activeTrackColor: kcPrimary,
-          linearGradient: const LinearGradient(colors: [
-            kcPrimary,
-            kcPrimaryDark,
-          ]),
+          linearGradient: const LinearGradient(
+            colors: [
+              kcPrimary,
+              kcPrimaryDark,
+            ],
+          ),
           min: 0,
         ),
       ],
