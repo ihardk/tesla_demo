@@ -4,7 +4,7 @@ import 'package:tesla_demo/constants/my_colors.dart';
 import 'package:tesla_demo/widgets/round_icon_button.dart';
 
 import '../constants/size_config.dart';
-import 'custome_slider.dart';
+import 'custom_slider.dart';
 
 class SliderListTile extends StatefulWidget {
   final String title;
