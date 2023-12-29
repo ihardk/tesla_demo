@@ -1,10 +1,7 @@
-import 'dart:math';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../constants/size_config.dart';
-import '../constants/theme.dart';
-import '../utils/circular_arc_calculations.dart';
 
 double radius = 135;
 double strokeWidth = 30;
@@ -23,7 +20,7 @@ class RoundedProgress extends StatefulWidget {
 }
 
 class _RoundedProgressState extends State<RoundedProgress> {
-  int volume = 0;
+  int volume = 10;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -31,7 +28,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
       children: [
         _outsideShadow(),
         _middleCircle2(),
-        _middleCircle(),
+        Visibility(visible: widget.btnActive, child: _middleCircle()),
         _topCircle(),
       ],
     );
@@ -73,7 +70,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
             end: Alignment.bottomRight,
           )),
       child: Text(
-        '${widget.btnActive ? widget.count : ''}',
+        '${widget.btnActive ? (widget.count ?? "-") : ''}',
         style: TextStyle(
           fontSize: SizeConfig.blockSizeHorizontal * 10,
           fontWeight: FontWeight.w600,
@@ -105,19 +102,29 @@ class _RoundedProgressState extends State<RoundedProgress> {
 
   Widget _middleCircle() {
     return ProgressArc(
-      onAngleChanged: (value) {
-        volume = ((value / (pi * 2)) * 100).toInt();
-        setState(() {});
-      },
+      count: (widget.count ?? 0).toDouble(),
+      min: 0,
+      max: 20,
+      // onAngleChanged: (value) {
+      //   volume = ((value / (pi * 2)) * 100).toInt();
+      //   setState(() {});
+      // },
     );
   }
 }
 
 class ProgressArc extends StatefulWidget {
-  final ValueChanged<double> onAngleChanged;
+  // final ValueChanged<double> onAngleChanged;
+  final double count;
+
+  final double min;
+  final double max;
   const ProgressArc({
     super.key,
-    required this.onAngleChanged,
+    required this.min,
+    required this.max,
+    // required this.onAngleChanged,
+    required this.count,
   });
 
   @override
@@ -125,9 +132,9 @@ class ProgressArc extends StatefulWidget {
 }
 
 class _ProgressArcState extends State<ProgressArc> {
-  double startAngle = toRadian(90);
+  // double startAngle = toRadian(90);
 
-  double totalAngle = toRadian(360);
+  // double totalAngle = toRadian(360);
 
   Offset currentDragOffset = Offset.zero;
 
@@ -137,55 +144,64 @@ class _ProgressArcState extends State<ProgressArc> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size / 2;
     Size canvasSize = Size(screenSize.width * 1.2, screenSize.width * 1.2);
-    Offset center = canvasSize.center(Offset.zero);
-    Offset knobPos = toPolar(
-      center - Offset(strokeWidth * 0.8, strokeWidth * 1.38),
-      currentAngle + startAngle,
-      radius - 20,
-    );
+    // Offset center = canvasSize.center(Offset.zero);
+    // Offset knobPos = toPolar(
+    //   center - Offset(strokeWidth * 0.8, strokeWidth * 1.38),
+    //   currentAngle + startAngle,
+    //   radius - 20,
+    // );
 
     return Stack(
       children: [
         CustomPaint(
           size: canvasSize,
-          painter: ArcPaint(startAngle: startAngle, currentAngle: currentAngle),
+          painter: ArcPaint(
+            value: widget.count,
+            minValue: widget.min,
+            maxValue: widget.max,
+          ),
         ),
-        Positioned(
-          left: knobPos.dx,
-          top: knobPos.dy + 3,
-          child: GestureDetector(
-              onPanStart: (details) {
-                RenderBox getBox = context.findRenderObject() as RenderBox;
-                currentDragOffset =
-                    getBox.globalToLocal(details.globalPosition);
-              },
-              onPanUpdate: (details) {
-                var previousOffset = currentDragOffset;
-                currentDragOffset += details.delta;
-                var angle = currentAngle +
-                    toAngle(currentDragOffset, center) -
-                    toAngle(previousOffset, center);
-                currentAngle = normalizeAngle(angle);
-                widget.onAngleChanged(currentAngle);
-                setState(() {});
-              },
-              child: Container(
-                height: 18,
-                width: 18,
-                decoration: BoxDecoration(
-                    color: white, borderRadius: BorderRadius.circular(100)),
-              )),
-        ),
+        // Positioned(
+        //   left: knobPos.dx,
+        //   top: knobPos.dy + 3,
+        //   child: GestureDetector(
+        //       onPanStart: (details) {
+        //         RenderBox getBox = context.findRenderObject() as RenderBox;
+        //         currentDragOffset =
+        //             getBox.globalToLocal(details.globalPosition);
+        //       },
+        //       onPanUpdate: (details) {
+        //         var previousOffset = currentDragOffset;
+        //         currentDragOffset += details.delta;
+        //         var angle = currentAngle +
+        //             toAngle(currentDragOffset, center) -
+        //             toAngle(previousOffset, center);
+        //         currentAngle = normalizeAngle(angle);
+        //         widget.onAngleChanged(currentAngle);
+        //         setState(() {});
+        //       },
+        //       child: Container(
+        //         height: 18,
+        //         width: 18,
+        //         decoration: BoxDecoration(
+        //             color: white, borderRadius: BorderRadius.circular(100)),
+        //       )),
+        // ),
       ],
     );
   }
 }
 
 class ArcPaint extends CustomPainter {
-  final double startAngle;
-  final double currentAngle;
+  final double value;
+  final double minValue;
+  final double maxValue;
 
-  ArcPaint({required this.startAngle, required this.currentAngle});
+  ArcPaint({
+    required this.value,
+    required this.minValue,
+    required this.maxValue,
+  });
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = size.center(Offset.zero);
@@ -198,6 +214,7 @@ class ArcPaint extends CustomPainter {
           Color(0xFF2FB8FF),
           Color(0x4083DFE2),
           Color(0x109EECD9),
+          Color(0xFF2FB8FF),
         ],
         transform: GradientRotation(1.55),
       ).createShader(rect)
@@ -205,7 +222,7 @@ class ArcPaint extends CustomPainter {
       ..strokeWidth = strokeWidth - 10
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawCircle(center, 5, paint);
+    // canvas.drawCircle(center, 5, paint);
     // paint.shader = const SweepGradient(
     //   colors: [
     //     kcSecondaryStart,
@@ -213,8 +230,16 @@ class ArcPaint extends CustomPainter {
     //   ],
     //   startAngle: 1,
     // ).createShader(rect);
+    const double angleStart = 2.2; // Start angle in radians
+    const double angleEnd = 7.1; // End angle in radians
+    final double sweepAngle = math.max(
+            0.0, math.min(1.0, (value - minValue) / (maxValue - minValue))) *
+        (angleEnd - angleStart);
 
-    canvas.drawArc(rect, startAngle, currentAngle, false, paint);
+    canvas.drawArc(rect, angleStart, sweepAngle, false, paint);
+    // log(currentAngle);
+
+    // canvas.drawArc(rect, 1.6, 1.6 + 6.2 / currentAngle * 10, false, paint);
   }
 
   @override

@@ -114,7 +114,9 @@ class _ClimateScreenState extends State<ClimateScreen> {
                 right: 0,
                 height: SizeConfig.screenHeight * 0.15,
                 child: BottomBlurDetailsWidget(
-                  onTap: () => setState(() => bottomModal = false),
+                  onTap: () => setState(() {
+                    bottomModal = false;
+                  }),
                 ),
               ),
           ],
