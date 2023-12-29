@@ -5,8 +5,15 @@ const String lock1 = "assets/images/lock1.png";
 const String unlock1 = "assets/images/unlock.png";
 const String battery = "assets/images/battery.png";
 const String homecar = "assets/images/image_35.png";
+const String chargingcar1 = "assets/images/image_401.png";
+const String chargingcar = "assets/images/image_40.png";
+
 const String rightarrow = "assets/images/rightarrow.png";
 const String leftarrow = "assets/images/leftarrow.png";
+const String downarrow = "assets/images/downArrow.png";
+const String uparrow = "assets/images/upArrow.png";
+
+const String marker = "assets/images/marker.png";
 
 const String menulock = "assets/images/Lock.png";
 // const String charge = "assets/images/Charge.png";

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'dart:ui' as ui;
 import '../constants/images.dart';
-import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 import '../constants/theme.dart';
-import '../widgets/my_new_progress_slider.dart';
 import '../widgets/round_icon_button.dart';
 
 class TeslaDetailsScreen extends StatefulWidget {
@@ -16,6 +14,7 @@ class TeslaDetailsScreen extends StatefulWidget {
 }
 
 class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
+  bool containerExpanded = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -55,6 +54,7 @@ class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
+        width: SizeConfig.screenWidth,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -66,7 +66,120 @@ class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
           ),
         ),
         child: Column(
-          children: const [Gap(120), MyGlowSlider()],
+          children: [
+            Gap(SizeConfig.blockSizeVertical * 17),
+            Image.asset(chargingcar),
+            Gap(SizeConfig.blockSizeVertical * 2),
+            const MyGlowSlider(),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 5),
+              height: containerExpanded
+                  ? SizeConfig.screenHeight * 0.35
+                  : SizeConfig.screenHeight * 0.11,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xFF202122),
+                // color: Colors.red,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x20000000),
+                    blurRadius: 1,
+                    spreadRadius: -1,
+                    offset: Offset(0, 1),
+                  ),
+                  BoxShadow(
+                    color: Color(0x10FFFFFF),
+                    blurRadius: 1,
+                    spreadRadius: -5,
+                    offset: Offset(-5, 5),
+                  ),
+                ],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Nearby Superchargers",
+                            style: TextStyle(
+                              fontSize: SizeConfig.safeBlockHorizontal * 5,
+                            ),
+                          ),
+                        ),
+                        RoundedIconButton(
+                          icon: containerExpanded ? uparrow : downarrow,
+                          onTap: () {
+                            setState(() {
+                              containerExpanded = !containerExpanded;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                    const Gap(10),
+                    ...List.generate(
+                      10,
+                      (index) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: SizeConfig.safeBlockVertical * 2),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tesla Superchargers - \nMontreal, QC",
+                                      style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal * 4,
+                                      ),
+                                    ),
+                                    const Gap(5),
+                                    Text(
+                                      "2/4 available",
+                                      style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal *
+                                                3.5,
+                                        color: const Color(0x60EBEBF5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Image.asset(
+                                    marker,
+                                    height: SizeConfig.screenHeight * 0.04,
+                                    width: SizeConfig.screenWidth * 0.1,
+                                  ),
+                                  const Gap(5),
+                                  Text(
+                                    "1.7 km",
+                                    style: TextStyle(
+                                      fontSize:
+                                          SizeConfig.safeBlockHorizontal * 3,
+                                      color: const Color(0x60EBEBF5),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -95,28 +208,31 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
             color: Colors.white,
           ),
         ),
+        const Gap(2),
         CustomPaint(
           size: Size(
-            300,
-            (300 * 0.17).toDouble(),
+            SizeConfig.screenWidth * 0.75,
+            (SizeConfig.safeBlockVertical * 25 * 0.17).toDouble(),
           ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
           painter: BatteryPaint(value: value),
         ),
         const Gap(80),
-        CustomSlider(
-          trackHeight: 10,
-          max: 1,
-          onChanged: (value) {
-            setState(() {
-              this.value = value;
-            });
-          },
-          inActiveTrackColor: kcBGGrey,
-          activeTrackColor: Colors.cyan,
-          linearGradient:
-              const LinearGradient(colors: [Colors.cyan, Colors.blue]),
-          min: 0,
-        )
+        // CustomSlider(
+        //   trackHeight: 10,
+        //   max: 1,
+        //   onChanged: (value) {
+        //     setState(() {
+        //       this.value = value;
+        //     });
+        //   },
+        //   inActiveTrackColor: kcBGGrey,
+        //   activeTrackColor: Colors.cyan,
+        //   linearGradient: const LinearGradient(colors: [
+        //     Colors.cyan,
+        //     Colors.blue,
+        //   ]),
+        //   min: 0,
+        // )
       ],
     );
   }
@@ -189,7 +305,8 @@ class BatteryPaint extends CustomPainter {
 
   Paint _batteryPaint(Size size, double width) {
     Paint topPaint = Paint()
-      ..color = const Color.fromARGB(255, 35, 220, 255)
+      ..color = const Color.fromARGB(255, 71, 169, 189)
+      // ..maskFilter = const MaskFilter.blur(BlurStyle.inner, 10)
       ..style = PaintingStyle.fill
       ..strokeWidth = width * 0.00
       ..strokeCap = StrokeCap.butt
@@ -209,7 +326,7 @@ class BatteryPaint extends CustomPainter {
               kcPrimary,
             ],
       // : [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
-      [-1, 0.8],
+      [-1, 2],
     );
     return topPaint;
   }
@@ -234,7 +351,7 @@ class BatteryPaint extends CustomPainter {
 
     Paint glowPaint = Paint()
       ..style = PaintingStyle.fill
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 30);
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
 
     glowPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
