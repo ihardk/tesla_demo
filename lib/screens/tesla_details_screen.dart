@@ -286,18 +286,12 @@ class BatteryPaint extends CustomPainter {
     Path path = Path();
     path.moveTo(0, height + 10);
     path.lineTo(width, height + 10);
-    path.quadraticBezierTo(
+    path.lineTo(
       width,
       height * 0.8500000,
-      width,
-      height * 0.8000000,
     );
-    path.cubicTo(
-      width * 0.9950000,
-      height * 0.6400000,
-      width * 0.9787500,
-      height * 0.1700000,
-      width * 0.9500000,
+    path.lineTo(
+      width - 10,
       0,
     );
     path.lineTo(12, 0);
