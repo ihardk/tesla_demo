@@ -1,13 +1,13 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
 import '../constants/size_config.dart';
+import '../widgets/blurry_effect_widget.dart';
 import '../widgets/round_icon_button.dart';
 import '../widgets/round_progress.dart';
+import '../widgets/slider_list_tile.dart';
 
 class ClimateScreen extends StatefulWidget {
   const ClimateScreen({super.key});
@@ -67,41 +67,43 @@ class _ClimateScreenState extends State<ClimateScreen> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        width: SizeConfig.screenWidth * 2,
         decoration: const BoxDecoration(
           gradient: homeBGLinear,
         ),
         child: Stack(
           children: [
             Column(
-              // mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Gap(150),
+                const Gap(120),
                 RoundedProgress(
                   btnActive: bottomModal,
                   count: selectdItem,
                 ),
-                const Gap(60),
+                const Gap(20),
                 Expanded(
                     child: SingleChildScrollView(
                   child: Column(
-                      children: List.generate(menuList.length, (index) {
-                    return SliderUnit(
-                      title: menuList[index]['title'],
-                      icon: menuList[index]['icon'],
-                      btnActive:
-                          (selectdItem == index && bottomModal) ? true : false,
-                      onActiveBtn: () {
-                        if (menuList[index]['id'] == index) {
-                          setState(() {
-                            selectdItem = index;
-                            bottomModal = true;
-                          });
-                        }
-                      },
-                    );
-                  })),
+                    children: [
+                      ...List.generate(
+                        menuList.length,
+                        (index) => SliderListTile(
+                          title: menuList[index]['title'],
+                          icon: menuList[index]['icon'],
+                          btnActive: (selectdItem == index && bottomModal),
+                          onActiveBtn: () {
+                            if (menuList[index]['id'] == index) {
+                              setState(() {
+                                selectdItem = index;
+                                bottomModal = true;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      const Gap(150),
+                    ],
+                  ),
                 ))
               ],
             ),
@@ -111,85 +113,8 @@ class _ClimateScreenState extends State<ClimateScreen> {
                 left: 0,
                 right: 0,
                 height: SizeConfig.screenHeight * 0.15,
-                child: Stack(
-                  children: [
-                    const BlurryEffect(0.5, 7, Color(0x30000000)),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: SizeConfig.safeBlockVertical * 3,
-                          horizontal: SizeConfig.safeBlockHorizontal * 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    bottomModal = false;
-                                  });
-                                },
-                                child: Image.asset(onoff),
-                              ),
-                              const Gap(10),
-                              InkWell(
-                                child: Image.asset(
-                                  leftarrow,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                "20°",
-                                style: TextStyle(
-                                    fontSize:
-                                        SizeConfig.safeBlockHorizontal * 7,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              InkWell(
-                                child: Image.asset(
-                                  rightarrow,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Gap(10),
-                              InkWell(
-                                child: Image.asset(vent),
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "On",
-                                style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                "Vent",
-                                style: TextStyle(
-                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                child: BottomBlurDetailsWidget(
+                  onTap: () => setState(() => bottomModal = false),
                 ),
               ),
           ],
@@ -199,161 +124,88 @@ class _ClimateScreenState extends State<ClimateScreen> {
   }
 }
 
-class BlurryEffect extends StatelessWidget {
-  final double opacity;
-  final double blurry;
-  final Color shade;
-
-  const BlurryEffect(this.opacity, this.blurry, this.shade, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(30),
-        topRight: Radius.circular(30),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blurry, sigmaY: blurry),
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(color: shade.withOpacity(opacity)),
-        ),
-      ),
-    );
-  }
-}
-
-class SliderUnit extends StatefulWidget {
-  final String title;
-  final String icon;
-  final Function()? onActiveBtn;
-  final bool? btnActive;
-  const SliderUnit({
+class BottomBlurDetailsWidget extends StatelessWidget {
+  const BottomBlurDetailsWidget({
     super.key,
-    required this.title,
-    required this.icon,
-    this.onActiveBtn,
-    this.btnActive,
+    required this.onTap,
   });
 
-  @override
-  State<SliderUnit> createState() => _SliderUnitState();
-}
+  final void Function() onTap;
 
-class _SliderUnitState extends State<SliderUnit> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
       children: [
+        const BlurryEffect(0.5, 7, Color(0x30000000)),
         Container(
-          // height: SizeConfig.screenHeight * 0.345,
-          // padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: SizeConfig.screenWidth * 0.1,
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: const Color(0x80EBEBF5),
-                      fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                      fontWeight: FontWeight.w600,
+          padding: EdgeInsets.symmetric(
+              vertical: SizeConfig.safeBlockVertical * 3,
+              horizontal: SizeConfig.safeBlockHorizontal * 8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                    child: Image.asset(onoff),
+                  ),
+                  const Gap(10),
+                  InkWell(
+                    child: Image.asset(
+                      leftarrow,
+                      color: Colors.white,
                     ),
                   ),
-                ),
-                const Gap(15),
-                RoundedIconButton(
-                  icon: widget.icon,
-                  onTap: widget.onActiveBtn,
-                  btnActive: widget.btnActive,
-                ),
-                // const Gap(10),
-                const Expanded(child: MyGlowSlider()),
-                // Expanded(
-                //     child: Container(
-                //   height: SizeConfig.screenHeight * 0.002,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(10),
-                //     // color: const Color(0xFF1C1D20),
-                //     // color: Colors.red,
-                //     boxShadow: const [
-                //       BoxShadow(
-                //         color: Colors.white30,
-                //         blurRadius: 1.5,
-                //         spreadRadius: -0.5,
-                //         offset: Offset(0, 2),
-                //       ),
-                //       BoxShadow(
-                //         color: Colors.black,
-                //         blurRadius: 1,
-                //         spreadRadius: 0.2,
-                //         offset: Offset(0, 0),
-                //       )
-                //     ],
-                //   ),
-                // )),
-              ]),
+                  Text(
+                    "20°",
+                    style: TextStyle(
+                        fontSize: SizeConfig.safeBlockHorizontal * 7,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    child: Image.asset(
+                      rightarrow,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Gap(10),
+                  InkWell(
+                    child: Image.asset(vent),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "On",
+                    style: TextStyle(
+                      fontSize: SizeConfig.safeBlockHorizontal * 4,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Vent",
+                    style: TextStyle(
+                      fontSize: SizeConfig.safeBlockHorizontal * 4,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-        // Positioned(
-        //   left: SizeConfig.blockSizeHorizontal * 40,
-        //   child: Container(
-        //     height: SizeConfig.screenHeight * 0.015,
-        //     width: SizeConfig.screenWidth * 0.07,
-        //     decoration: BoxDecoration(
-        //       // color: Colors.red,
-        //       boxShadow: const [
-        //         BoxShadow(
-        //           color: Colors.black,
-        //           blurRadius: 5,
-        //           spreadRadius: 3,
-        //           offset: Offset(2, 2),
-        //         )
-        //       ],
-        //       gradient: const LinearGradient(
-        //         colors: [
-        //           Color(0xFF2E3236),
-        //           Color(0xFF141515),
-        //         ],
-        //         stops: [0, 1],
-        //         begin: Alignment.topCenter,
-        //         end: Alignment.bottomCenter,
-        //       ),
-        //       borderRadius: BorderRadius.circular(10),
-        //     ),
-        //   ),
-        // )
-      ],
-    );
-  }
-}
-
-class MyGlowSlider extends StatefulWidget {
-  const MyGlowSlider({
-    super.key,
-  });
-
-  @override
-  State<MyGlowSlider> createState() => _MyGlowSliderState();
-}
-
-class _MyGlowSliderState extends State<MyGlowSlider> {
-  var value = 0.5;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Slider(
-          value: value,
-          onChanged: (value) => setState(() {
-            this.value = value;
-          }),
-        )
       ],
     );
   }
