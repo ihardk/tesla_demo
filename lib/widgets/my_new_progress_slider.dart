@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
@@ -58,11 +57,8 @@ class _CustomSliderState extends State<CustomSlider> {
   @override
   void initState() {
     if (widget.assetImage != null) {
-      load(widget.assetImage!).then((image) {
-        setState(() {
-          customImage = image;
-        });
-      });
+      load(widget.assetImage!)
+          .then((image) => setState(() => customImage = image));
     }
     super.initState();
   }
@@ -77,8 +73,8 @@ class _CustomSliderState extends State<CustomSlider> {
           linearGradient: widget.linearGradient ??
               const LinearGradient(
                 colors: [
-                  kcSecondaryStart,
-                  kcSecondaryEnd,
+                  kcPrimary,
+                  kcPrimaryDark,
                 ],
               ),
         ),
@@ -177,37 +173,32 @@ class GradientSliderTrackShape extends SliderTrackShape
       begin: sliderTheme.disabledInactiveTrackColor?.withOpacity(0.1),
       end: sliderTheme.inactiveTrackColor?.withOpacity(1.0),
     );
+
     final Paint activePaint = Paint()
       ..shader = linearGradient!.createShader(activeGradientRect)
       ..color = activeTrackColorTween.evaluate(enableAnimation)!;
     final Paint inactivePaint = Paint()
       ..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
-    final Paint leftTrackPaint;
-    final Paint rightTrackPaint;
-    switch (textDirection) {
-      case TextDirection.ltr:
-        leftTrackPaint = activePaint;
-        rightTrackPaint = inactivePaint;
-        break;
-      case TextDirection.rtl:
-        leftTrackPaint = inactivePaint;
-        rightTrackPaint = activePaint;
-        break;
-    }
 
     final Rect leftTrackSegment = Rect.fromLTRB(
         trackRect.left, trackRect.top, thumbCenter.dx, trackRect.bottom);
     if (!leftTrackSegment.isEmpty) {
-      context.canvas.drawRect(leftTrackSegment, leftTrackPaint);
+      context.canvas.drawRect(leftTrackSegment, activePaint);
       context.canvas.drawCircle(
-          trackRect.centerLeft, sliderTheme.trackHeight! / 2, leftTrackPaint);
+        trackRect.centerLeft,
+        sliderTheme.trackHeight! / 2,
+        activePaint,
+      );
     }
     final Rect rightTrackSegment = Rect.fromLTRB(
         thumbCenter.dx, trackRect.top, trackRect.right, trackRect.bottom);
     if (!rightTrackSegment.isEmpty) {
-      context.canvas.drawRect(rightTrackSegment, rightTrackPaint);
+      context.canvas.drawRect(rightTrackSegment, inactivePaint);
       context.canvas.drawCircle(
-          trackRect.centerRight, sliderTheme.trackHeight! / 2, rightTrackPaint);
+        trackRect.centerRight,
+        sliderTheme.trackHeight! / 2,
+        inactivePaint,
+      );
     }
   }
 }
@@ -244,6 +235,7 @@ class SliderThumbImage extends SliderComponentShape {
       required double value,
       required double textScaleFactor,
       required Size sizeWithOverflow}) {
+    //
     assert(sliderTheme.disabledThumbColor != null);
     assert(sliderTheme.thumbColor != null);
     var canvas = context.canvas;
@@ -289,10 +281,16 @@ class SliderThumbImage extends SliderComponentShape {
           ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 10)
           ..color = Colors.black,
       );
-      canvas.drawCircle(center, thumbRadius,
-          paint..color = sliderTheme.activeTrackColor ?? Colors.grey);
-      canvas.drawCircle(center, thumbRadius * .9,
-          paint..color = innerThumbColor ?? kcLabelGrey);
+      canvas.drawCircle(
+        center,
+        thumbRadius,
+        paint..color = sliderTheme.activeTrackColor ?? Colors.grey,
+      );
+      canvas.drawCircle(
+        center,
+        thumbRadius * .9,
+        paint..color = innerThumbColor ?? kcLabelGrey,
+      );
 
       tp.paint(canvas, textCenter);
     }
@@ -300,94 +298,5 @@ class SliderThumbImage extends SliderComponentShape {
 
   String getValue(double value) {
     return (min + (max - min) * value * 100).round().toString();
-  }
-}
-
-class ThumbWidget extends StatefulWidget {
-  const ThumbWidget({
-    super.key,
-    required this.currentSize,
-  });
-
-  final int? currentSize;
-
-  @override
-  State<ThumbWidget> createState() => _ThumbWidgetState();
-}
-
-class _ThumbWidgetState extends State<ThumbWidget> {
-  final GlobalKey _globalKey = GlobalKey();
-
-  Future<Image?> getAsImage() async {
-    print('inside');
-    RenderObject? boundary = _globalKey.currentContext?.findRenderObject();
-    if (boundary?.isRepaintBoundary ?? false) {
-      final image =
-          await (boundary! as RenderRepaintBoundary).toImage(pixelRatio: 3.0);
-
-      final bytes = await image.toByteData();
-
-      return Image(image: MemoryImage(bytes!.buffer.asUint8List()));
-    }
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      key: _globalKey,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 45,
-          height: 45,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white10,
-                offset: Offset(-4.67, 0),
-                blurRadius: 60.34,
-                spreadRadius: 0.4,
-              ),
-              BoxShadow(
-                color: Colors.white30,
-                offset: Offset(-4.67, -4.67),
-                blurRadius: 10.34,
-                spreadRadius: 0.6,
-              ),
-              BoxShadow(
-                color: Colors.black,
-                offset: Offset(4.67, 4.67),
-                blurRadius: 5.34,
-                spreadRadius: 0.6,
-              ),
-              BoxShadow(
-                color: Colors.white30,
-                blurRadius: 5.34,
-                spreadRadius: -10.6,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [kcBlack, kcBGGrey],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: widget.currentSize != null
-              ? Text((widget.currentSize! + 1).toString())
-              : Container(),
-        ),
-      ],
-    );
   }
 }

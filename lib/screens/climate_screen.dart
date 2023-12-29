@@ -105,9 +105,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
                       onSliderAction: (value) {
                         log("value ${(1.6 + 6.2 / value)}");
 
-                        setState(() {
-                          counter = (value).toInt();
-                        });
+                        setState(() => counter = (value).toInt());
                       },
                     );
                   })),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:tesla_demo/constants/my_colors.dart';
 import 'package:tesla_demo/widgets/round_icon_button.dart';
 
 import '../constants/size_config.dart';
@@ -92,10 +93,10 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           onChanged: widget.onSliderAction,
           btnActive: widget.btnActive,
           inActiveTrackColor: const Color(0xFF1C1D20),
-          activeTrackColor: Colors.cyan,
+          activeTrackColor: kcPrimary,
           linearGradient: const LinearGradient(colors: [
-            Colors.cyan,
-            Colors.blue,
+            kcPrimary,
+            kcPrimaryDark,
           ]),
           min: 0,
         ),

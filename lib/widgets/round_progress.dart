@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:tesla_demo/constants/my_colors.dart';
 
 import '../constants/size_config.dart';
 
@@ -164,10 +165,10 @@ class ArcPaint extends CustomPainter {
     final paint = Paint()
       ..shader = const SweepGradient(
         colors: [
-          Colors.blue,
-          Color(0xFF2FB8FF),
-          Color(0xFF2FB8FF),
-          Colors.blue,
+          kcPrimaryDark,
+          kcPrimary,
+          kcPrimary,
+          kcPrimaryDark,
         ],
         transform: GradientRotation(1.55),
       ).createShader(rect)

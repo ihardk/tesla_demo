@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
+import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 import '../widgets/round_icon_button.dart';
 
@@ -109,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     BoxShadow(
                       color: Color(0x11FFFFFF),
                       blurRadius: 100,
-                      // spreadRadius: -100,
                       offset: Offset(0, -20),
                     ),
                   ],
@@ -117,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
@@ -133,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: SizeConfig.screenHeight * 0.345,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  // padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border:
@@ -148,39 +146,40 @@ class _HomeScreenState extends State<HomeScreen> {
                       return SizedBox(
                         height: SizeConfig.screenHeight * 0.08,
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(menus['icon']),
-                              const Gap(15),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    menus['title'] ?? "-",
-                                    style: TextStyle(
-                                      color: const Color(0x80EBEBF5),
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 4.5,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(menus['icon']),
+                            const Gap(15),
+                            Expanded(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  menus['title'] ?? "-",
+                                  style: TextStyle(
+                                    color: const Color(0x80EBEBF5),
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4.5,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  const Gap(2),
-                                  Text(
-                                    menus['subtitle'] ?? "-",
-                                    style: TextStyle(
-                                      color: const Color(0x50EBEBF5),
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 4,
-                                    ),
+                                ),
+                                const Gap(2),
+                                Text(
+                                  menus['subtitle'] ?? "-",
+                                  style: TextStyle(
+                                    color: const Color(0x50EBEBF5),
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4,
                                   ),
-                                ],
-                              )),
-                              const Gap(10),
-                              Image.asset(rightarrow),
-                            ]),
+                                ),
+                              ],
+                            )),
+                            const Gap(10),
+                            Image.asset(rightarrow),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -189,7 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Positioned(
               top: SizeConfig.screenHeight * 0.5,
-              // right: SizeConfig.blockSizeHorizontal * 8,
               child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   height: SizeConfig.screenHeight * 0.07,
@@ -239,14 +237,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.centerLeft,
                 children: [
                   SizedBox(
-                    // width: SizeConfig.screenWidth * 0.279,
                     width: SizeConfig.screenWidth,
-
                     child: CustomPaint(
                       size: Size(SizeConfig.screenWidth,
                           SizeConfig.screenHeight * 0.09),
                       painter: ProfileCardPainter(
-                          color: Colors.teal, avatarRadius: 30), //3
+                        color: kcPrimary,
+                        avatarRadius: 30,
+                      ),
                     ),
                   ),
                   Row(
@@ -311,11 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  changeIndex(int i) {
-    setState(() {
-      selectedIndex = i;
-    });
-  }
+  changeIndex(int i) => setState(() => selectedIndex = i);
 }
 
 class ProfileCardPainter extends CustomPainter {
@@ -355,17 +349,6 @@ class ProfileCardPainter extends CustomPainter {
     path_0.lineTo(0, 78);
     path_0.lineTo(0, 35.2235);
     path_0.close();
-
-    // path_0.lineTo(size.width * 3.15, 0);
-    // path_0.cubicTo(size.width * 3.3, 0, size.width * 3.35, 4.67391,
-    //     size.width * 3.45, 12.94);
-    // path_0.lineTo(size.width * 3.56, 26.2287);
-    // path_0.cubicTo(size.width * 3.58, 28.6489, size.width * 3.6, 31.8714,
-    //     size.width * 3.6, 35.2235);
-    // path_0.lineTo(size.width * 3.6, 78);
-    // path_0.lineTo(0, 78);
-    // path_0.lineTo(0, 35.2235);
-    // path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
     paint0Fill.color = Colors.black.withOpacity(0.90);
