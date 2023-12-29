@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tesla_demo/constants/theme.dart';
 
-import 'screens/climate_screen.dart';
+import 'screens/tesla_details_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tesla App Demo',
       theme: themeData,
-      home: const ClimateScreen(),
-      // home: const TeslaDetailsScreen(),
+      // home: const ClimateScreen(),
+      home: const TeslaDetailsScreen(),
     );
   }
 }

@@ -1,22 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:tesla_demo/constants/my_colors.dart';
-
 import 'dart:ui' as ui;
+import '../constants/images.dart';
+import '../constants/my_colors.dart';
+import '../constants/size_config.dart';
+import '../constants/theme.dart';
+import '../widgets/my_new_progress_slider.dart';
+import '../widgets/round_icon_button.dart';
 
-import 'package:tesla_demo/widgets/my_new_progress_slider.dart';
-
-class TeslaDetailsScreen extends StatelessWidget {
+class TeslaDetailsScreen extends StatefulWidget {
   const TeslaDetailsScreen({super.key});
 
   @override
+  State<TeslaDetailsScreen> createState() => _TeslaDetailsScreenState();
+}
+
+class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
+  @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            children: const [Gap(120), MyGlowSlider()],
+      appBar: AppBar(
+        toolbarHeight: SizeConfig.screenHeight * 0.12,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(
+                right: 20,
+              ),
+              child: const RoundedIconButton(icon: leftarrow),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "CHARGING",
+                  style: TextStyle(
+                      color: white,
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.5),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.only(
+              right: 20,
+            ),
+            child: const RoundedIconButton(icon: setting),
           ),
+        ],
+      ),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF2A2D32),
+              Color(0xFF1D1D1D),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Column(
+          children: const [Gap(120), MyGlowSlider()],
         ),
       ),
     );
@@ -41,8 +91,8 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
         Text(
           "${(value * 100).toStringAsFixed(1)}%",
           style: const TextStyle(
-            fontSize: 50,
-            color: kcWhite,
+            fontSize: 30,
+            color: Colors.white,
           ),
         ),
         CustomPaint(
@@ -62,13 +112,9 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
             });
           },
           inActiveTrackColor: kcBGGrey,
-          activeTrackColor: kcPrimary,
-          linearGradient: const LinearGradient(
-            colors: [
-              kcPrimary,
-              kcPrimaryDark,
-            ],
-          ),
+          activeTrackColor: Colors.cyan,
+          linearGradient:
+              const LinearGradient(colors: [Colors.cyan, Colors.blue]),
           min: 0,
         )
       ],
@@ -149,17 +195,27 @@ class BatteryPaint extends CustomPainter {
 
   Paint _batteryPaint(Size size, double width) {
     Paint topPaint = Paint()
-      ..color = kcPrimary
+      ..color = const Color.fromARGB(255, 35, 220, 255)
       ..style = PaintingStyle.fill
       ..strokeWidth = width * 0.00
       ..strokeCap = StrokeCap.butt
       ..strokeJoin = StrokeJoin.miter;
 
     topPaint.shader = ui.Gradient.linear(
-      Offset(width * 0.50, size.height * 0.50),
+      Offset(width * 0.50, size.height * 0.40),
       Offset(width * 0.50, size.height),
-      value < 0.3 ? [Colors.orange, Colors.red] : [kcPrimary, kcPrimaryDark],
-      [0.4, 1.0],
+
+      value < 0.3
+          ? [
+              Colors.orange,
+              Colors.red,
+            ]
+          : [
+              const Color(0xFF2FB8FF),
+              const Color(0xFF9EECD9),
+            ],
+      // : [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
+      [-1, 0.8],
     );
     return topPaint;
   }
@@ -175,11 +231,13 @@ class BatteryPaint extends CustomPainter {
     bottomPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
       Offset(size.width * 0.50, size.height),
-      [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
+      [const Color(0xFF9EECD9), const Color(0xff2FB8FF),],
       [0.4, 1.0],
     );
 
-    Paint glowPaint = Paint()..style = PaintingStyle.fill;
+    Paint glowPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
 
     glowPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
@@ -190,7 +248,7 @@ class BatteryPaint extends CustomPainter {
       ],
       [0.3, 1.0],
     );
-    glowPaint.maskFilter = const MaskFilter.blur(BlurStyle.inner, 4);
+    // glowPaint.maskFilter = const MaskFilter.blur(BlurStyle.inner, 4);
 
     final rect =
         Rect.fromLTWH(0, size.height * 1, valueFilledWidth, size.height * 0.2);
