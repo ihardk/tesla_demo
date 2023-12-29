@@ -231,20 +231,23 @@ class BatteryPaint extends CustomPainter {
     bottomPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
       Offset(size.width * 0.50, size.height),
-      [const Color(0xFF9EECD9), const Color(0xff2FB8FF),],
+      [
+        const Color(0xFF9EECD9),
+        const Color(0xff2FB8FF),
+      ],
       [0.4, 1.0],
     );
 
     Paint glowPaint = Paint()
       ..style = PaintingStyle.fill
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 30);
 
     glowPaint.shader = ui.Gradient.linear(
       Offset(size.width * 0.50, size.height * 0.50),
       Offset(size.width * 0.50, size.height),
       [
-        value > 0.3 ? const Color(0x559EECD9) : const Color(0x53F3B320),
-        const Color(0x53F3B320)
+        value > 0.3 ? const Color(0xFF9EECD9) : const Color(0x53F3B320),
+        value > 0.3 ? const Color(0x119EECD9) : const Color(0x53F3B320)
       ],
       [0.3, 1.0],
     );
@@ -256,15 +259,15 @@ class BatteryPaint extends CustomPainter {
     final path = Path();
     path.addPolygon(
       [
-        const Offset(0, -50),
-        Offset(valueFilledWidth, -50),
-        Offset(valueFilledWidth - 8, 20),
+        const Offset(10, -10),
+        Offset(valueFilledWidth, -10),
+        Offset(valueFilledWidth - 10, 10),
         const Offset(10, 20),
       ],
       true,
     );
 
-    canvas.drawPath(path, glowPaint);
     canvas.drawRect(rect, bottomPaint);
+    canvas.drawPath(path, glowPaint);
   }
 }
