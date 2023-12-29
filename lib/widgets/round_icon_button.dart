@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesla_demo/constants/my_colors.dart';
 
 import '../constants/size_config.dart';
 
@@ -29,8 +30,8 @@ class RoundedIconButton extends StatelessWidget {
               gradient: (btnActive ?? false)
                   ? const LinearGradient(
                       colors: [
-                        Color(0xFF005EA3),
-                        Color(0xFF11A8FD),
+                        kcPrimaryDark,
+                        kcPrimary,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -53,7 +54,7 @@ class RoundedIconButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.white30,
+                  color: kcWhite10,
                   blurRadius: 20,
                   spreadRadius: -5,
                   offset: Offset(-4, -4),
@@ -69,8 +70,8 @@ class RoundedIconButton extends StatelessWidget {
               gradient: (btnActive ?? false)
                   ? const LinearGradient(
                       colors: [
-                        Color(0xFF005EA3),
-                        Color(0xFF11A8FD),
+                        kcPrimaryDark,
+                        kcPrimary,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,

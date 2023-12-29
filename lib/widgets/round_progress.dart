@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:tesla_demo/constants/my_colors.dart';
 
 import '../constants/size_config.dart';
 
@@ -42,7 +43,7 @@ class _RoundedProgressState extends State<RoundedProgress> {
         borderRadius: BorderRadius.circular(100),
         boxShadow: const [
           BoxShadow(
-            color: Colors.white30,
+            color: kcWhite10,
             blurRadius: 40,
             spreadRadius: -10,
             offset: Offset(-15, -8),
@@ -86,7 +87,6 @@ class _RoundedProgressState extends State<RoundedProgress> {
       width: SizeConfig.screenWidth * 0.46,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        // color: black,
         gradient: const LinearGradient(
           colors: [
             Color(0xFF2B2F33),
@@ -104,17 +104,12 @@ class _RoundedProgressState extends State<RoundedProgress> {
     return ProgressArc(
       count: (widget.count ?? 0).toDouble(),
       min: 0,
-      max: 20,
-      // onAngleChanged: (value) {
-      //   volume = ((value / (pi * 2)) * 100).toInt();
-      //   setState(() {});
-      // },
+      max: 21,
     );
   }
 }
 
 class ProgressArc extends StatefulWidget {
-  // final ValueChanged<double> onAngleChanged;
   final double count;
 
   final double min;
@@ -123,7 +118,6 @@ class ProgressArc extends StatefulWidget {
     super.key,
     required this.min,
     required this.max,
-    // required this.onAngleChanged,
     required this.count,
   });
 
@@ -132,10 +126,6 @@ class ProgressArc extends StatefulWidget {
 }
 
 class _ProgressArcState extends State<ProgressArc> {
-  // double startAngle = toRadian(90);
-
-  // double totalAngle = toRadian(360);
-
   Offset currentDragOffset = Offset.zero;
 
   double currentAngle = 0.05;
@@ -144,50 +134,14 @@ class _ProgressArcState extends State<ProgressArc> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size / 2;
     Size canvasSize = Size(screenSize.width * 1.2, screenSize.width * 1.2);
-    // Offset center = canvasSize.center(Offset.zero);
-    // Offset knobPos = toPolar(
-    //   center - Offset(strokeWidth * 0.8, strokeWidth * 1.38),
-    //   currentAngle + startAngle,
-    //   radius - 20,
-    // );
 
-    return Stack(
-      children: [
-        CustomPaint(
-          size: canvasSize,
-          painter: ArcPaint(
-            value: widget.count,
-            minValue: widget.min,
-            maxValue: widget.max,
-          ),
-        ),
-        // Positioned(
-        //   left: knobPos.dx,
-        //   top: knobPos.dy + 3,
-        //   child: GestureDetector(
-        //       onPanStart: (details) {
-        //         RenderBox getBox = context.findRenderObject() as RenderBox;
-        //         currentDragOffset =
-        //             getBox.globalToLocal(details.globalPosition);
-        //       },
-        //       onPanUpdate: (details) {
-        //         var previousOffset = currentDragOffset;
-        //         currentDragOffset += details.delta;
-        //         var angle = currentAngle +
-        //             toAngle(currentDragOffset, center) -
-        //             toAngle(previousOffset, center);
-        //         currentAngle = normalizeAngle(angle);
-        //         widget.onAngleChanged(currentAngle);
-        //         setState(() {});
-        //       },
-        //       child: Container(
-        //         height: 18,
-        //         width: 18,
-        //         decoration: BoxDecoration(
-        //             color: white, borderRadius: BorderRadius.circular(100)),
-        //       )),
-        // ),
-      ],
+    return CustomPaint(
+      size: canvasSize,
+      painter: ArcPaint(
+        value: widget.count,
+        minValue: widget.min,
+        maxValue: widget.max,
+      ),
     );
   }
 }
@@ -211,10 +165,10 @@ class ArcPaint extends CustomPainter {
     final paint = Paint()
       ..shader = const SweepGradient(
         colors: [
-          Color(0xFF2FB8FF),
-          Color(0x4083DFE2),
-          Color(0x109EECD9),
-          Color(0xFF2FB8FF),
+          kcPrimaryDark,
+          kcPrimary,
+          kcPrimary,
+          kcPrimaryDark,
         ],
         transform: GradientRotation(1.55),
       ).createShader(rect)
@@ -222,24 +176,13 @@ class ArcPaint extends CustomPainter {
       ..strokeWidth = strokeWidth - 10
       ..strokeCap = StrokeCap.round;
 
-    // canvas.drawCircle(center, 5, paint);
-    // paint.shader = const SweepGradient(
-    //   colors: [
-    //     kcSecondaryStart,
-    //     kcSecondaryEnd,
-    //   ],
-    //   startAngle: 1,
-    // ).createShader(rect);
-    const double angleStart = 2.2; // Start angle in radians
-    const double angleEnd = 7.1; // End angle in radians
+    const double angleStart = 2.2;
+    const double angleEnd = 7.1;
     final double sweepAngle = math.max(
             0.0, math.min(1.0, (value - minValue) / (maxValue - minValue))) *
         (angleEnd - angleStart);
 
     canvas.drawArc(rect, angleStart, sweepAngle, false, paint);
-    // log(currentAngle);
-
-    // canvas.drawArc(rect, 1.6, 1.6 + 6.2 / currentAngle * 10, false, paint);
   }
 
   @override

@@ -42,7 +42,7 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           "${(value * 100).toStringAsFixed(1)}%",
           style: const TextStyle(
             fontSize: 50,
-            color: Colors.white,
+            color: kcWhite,
           ),
         ),
         CustomPaint(
@@ -62,9 +62,13 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
             });
           },
           inActiveTrackColor: kcBGGrey,
-          activeTrackColor: Colors.cyan,
-          linearGradient:
-              const LinearGradient(colors: [Colors.cyan, Colors.blue]),
+          activeTrackColor: kcPrimary,
+          linearGradient: const LinearGradient(
+            colors: [
+              kcPrimary,
+              kcPrimaryDark,
+            ],
+          ),
           min: 0,
         )
       ],
@@ -145,7 +149,7 @@ class BatteryPaint extends CustomPainter {
 
   Paint _batteryPaint(Size size, double width) {
     Paint topPaint = Paint()
-      ..color = const Color.fromARGB(255, 35, 220, 255)
+      ..color = kcPrimary
       ..style = PaintingStyle.fill
       ..strokeWidth = width * 0.00
       ..strokeCap = StrokeCap.butt
@@ -154,9 +158,7 @@ class BatteryPaint extends CustomPainter {
     topPaint.shader = ui.Gradient.linear(
       Offset(width * 0.50, size.height * 0.50),
       Offset(width * 0.50, size.height),
-      value < 0.3
-          ? [Colors.orange, Colors.red]
-          : [const Color(0xFF9EECD9), const Color(0xff2FB8FF)],
+      value < 0.3 ? [Colors.orange, Colors.red] : [kcPrimary, kcPrimaryDark],
       [0.4, 1.0],
     );
     return topPaint;
