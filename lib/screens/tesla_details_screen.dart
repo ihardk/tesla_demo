@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'dart:ui' as ui;
 import '../constants/images.dart';
+import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
 import '../constants/theme.dart';
 import '../widgets/round_icon_button.dart';

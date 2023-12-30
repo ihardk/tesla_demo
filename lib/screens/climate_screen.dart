@@ -200,6 +200,32 @@ class _ClimateScreenState extends State<ClimateScreen> {
                   ],
                 ),
               ),
+            if (bottomModal)
+              Positioned(
+                bottom: 0,
+                // left: 0,
+                right: 0,
+                width: SizeConfig.screenWidth * 0.4,
+                height: SizeConfig.screenHeight * 0.2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    // color: const Color(0x5056CCF2),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(
+                        SizeConfig.blockSizeHorizontal * 50,
+                      ),
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x3056CCF2),
+                        blurRadius: 100,
+                        spreadRadius: 10,
+                        offset: Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

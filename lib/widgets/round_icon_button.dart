@@ -3,21 +3,38 @@ import 'package:tesla_demo/constants/my_colors.dart';
 
 import '../constants/size_config.dart';
 
-class RoundedIconButton extends StatelessWidget {
+class RoundedIconButton extends StatefulWidget {
   final String icon;
   final Function()? onTap;
   final bool? btnActive;
+  final void Function()? onPressedRelese;
   const RoundedIconButton({
     super.key,
     required this.icon,
     this.onTap,
+    this.onPressedRelese,
     this.btnActive,
   });
 
   @override
+  State<RoundedIconButton> createState() => _RoundedIconButtonState();
+}
+
+class _RoundedIconButtonState extends State<RoundedIconButton> {
+  bool isPressed = false;
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (details) => [setState(() => isPressed = true)],
+      onTapCancel: () {
+        setState(() => isPressed = false);
+        if (widget.onPressedRelese != null) widget.onPressedRelese!();
+      },
+      onTapUp: (details) {
+        setState(() => isPressed = false);
+        if (widget.onPressedRelese != null) widget.onPressedRelese!();
+      },
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -27,7 +44,7 @@ class RoundedIconButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               // color: black,
-              gradient: (btnActive ?? false)
+              gradient: (widget.btnActive ?? false)
                   ? const LinearGradient(
                       colors: [
                         kcPrimaryDark,
@@ -36,12 +53,17 @@ class RoundedIconButton extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     )
-                  : const LinearGradient(
-                      colors: [
-                        Color(0xFF000000),
-                        Color(0x22FFFFFF),
-                      ],
-                      stops: [0.5, 1],
+                  : LinearGradient(
+                      colors: isPressed
+                          ? [
+                              // const Color(0x22FFFFFF),
+                              const Color(0xFF000000),
+                            ]
+                          : [
+                              const Color(0xFF000000),
+                              const Color(0x22FFFFFF),
+                            ],
+                      stops: isPressed ? [0.5] : const [0.5, 1],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomRight,
                     ),
@@ -52,12 +74,12 @@ class RoundedIconButton extends StatelessWidget {
             width: SizeConfig.screenWidth * 0.14,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: kcWhite10,
-                  blurRadius: 20,
-                  spreadRadius: -5,
-                  offset: Offset(-4, -4),
+                  offset: isPressed ? const Offset(0, 0) : const Offset(-4, -4),
+                  blurRadius: isPressed ? 4 : 20,
+                  spreadRadius: isPressed ? 4 : -1,
                 )
               ],
             ),
@@ -67,7 +89,7 @@ class RoundedIconButton extends StatelessWidget {
             width: SizeConfig.screenWidth * 0.12,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              gradient: (btnActive ?? false)
+              gradient: (widget.btnActive ?? false)
                   ? const LinearGradient(
                       colors: [
                         kcPrimaryDark,
@@ -76,16 +98,22 @@ class RoundedIconButton extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     )
-                  : const LinearGradient(
-                      colors: [
-                        Color(0xFF545659),
-                        Color(0xFF232629),
-                      ],
+                  : LinearGradient(
+                      colors: isPressed
+                          ? [
+                              const Color(0xFF232629),
+                              const Color(0xFF232629),
+                              // const Color(0xFF545659),
+                            ]
+                          : [
+                              const Color(0xFF545659),
+                              const Color(0xFF232629),
+                            ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
             ),
-            child: Image.asset(icon),
+            child: Image.asset(widget.icon),
           ),
         ],
       ),
