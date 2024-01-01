@@ -92,231 +92,233 @@ class _HomeTabState extends State<HomeTab> {
       //   ),
       // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Container(
-        width: SizeConfig.screenWidth * 2,
-        decoration: const BoxDecoration(
-          gradient: homeBGLinear,
-        ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Positioned(
-              top: SizeConfig.screenHeight * 0.25,
-              height: SizeConfig.screenHeight * 0.25,
-              width: SizeConfig.screenWidth,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x11FFFFFF),
-                      blurRadius: 100,
-                      offset: Offset(0, -20),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top: SizeConfig.blockSizeHorizontal * 38,
-                  ),
-                  child: Image.asset(homecar),
-                ),
-                const Gap(80),
-                Container(
-                  height: SizeConfig.screenHeight * 0.345,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border:
-                        Border.all(color: const Color(0x22ffffff), width: 1),
-                    color: const Color(0x11FFFFFF),
-                  ),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: menuList.length,
-                    itemBuilder: (context, index) {
-                      var menus = menuList[index];
-                      return SizedBox(
-                        height: SizeConfig.screenHeight * 0.08,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(menus['icon']),
-                            const Gap(15),
-                            Expanded(
-                                child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  menus['title'] ?? "-",
-                                  style: TextStyle(
-                                    color: const Color(0x80EBEBF5),
-                                    fontSize:
-                                        SizeConfig.blockSizeHorizontal * 4.5,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const Gap(2),
-                                Text(
-                                  menus['subtitle'] ?? "-",
-                                  style: TextStyle(
-                                    color: const Color(0x50EBEBF5),
-                                    fontSize:
-                                        SizeConfig.blockSizeHorizontal * 4,
-                                  ),
-                                ),
-                              ],
-                            )),
-                            const Gap(10),
-                            Image.asset(rightarrow),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: SizeConfig.screenHeight * 0.5,
-              child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  height: SizeConfig.screenHeight * 0.07,
-                  width: SizeConfig.screenWidth * 0.85,
+      body: SingleChildScrollView(
+        child: Container(
+          width: SizeConfig.screenWidth,
+          decoration: const BoxDecoration(
+            gradient: homeBGLinear,
+          ),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Positioned(
+                top: SizeConfig.screenHeight * 0.25,
+                height: SizeConfig.screenHeight * 0.25,
+                width: SizeConfig.screenWidth,
+                child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0xFF27282A),
-                        blurRadius: 10,
-                        spreadRadius: 5,
-                        offset: Offset(-3, -3),
-                      ),
-                      BoxShadow(
-                        color: Color(0x70000000),
-                        blurRadius: 10,
-                        spreadRadius: 8,
-                        offset: Offset(3, 3),
+                        color: Color(0x11FFFFFF),
+                        blurRadius: 100,
+                        offset: Offset(0, -20),
                       ),
                     ],
-                    color: const Color(0xFF131313),
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      InkWell(
-                        child: Image.asset(menulock),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const ClimateScreen(),
-                            ),
-                          );
-                        },
-                        child: Image.asset(climate),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const TeslaDetailsTab(),
-                            ),
-                          );
-                        },
-                        child: Image.asset(charge),
-                      ),
-                      InkWell(
-                        child: Image.asset(open),
-                      )
-                    ],
-                  )),
-            ),
-            // Positioned(
-            //   bottom: 0,
-            //   left: 0,
-            //   right: 0,
-            //   child: Stack(
-            //     alignment: Alignment.centerLeft,
-            //     children: [
-            //       SizedBox(
-            //         width: SizeConfig.screenWidth,
-            //         child: CustomPaint(
-            //           size: Size(SizeConfig.screenWidth,
-            //               SizeConfig.screenHeight * 0.09),
-            //           painter: ProfileCardPainter(
-            //             color: kcPrimary,
-            //             avatarRadius: 30,
-            //           ),
-            //         ),
-            //       ),
-            //       Row(
-            //         crossAxisAlignment: CrossAxisAlignment.center,
-            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //         children: List.generate(
-            //           list.length,
-            //           (index) => index == 2
-            //               ? const SizedBox(width: 60)
-            //               : InkWell(
-            //                   child: Container(
-            //                     width: SizeConfig.screenWidth * 0.16,
-            //                     height: SizeConfig.screenHeight * 0.08,
-            //                     decoration: BoxDecoration(
-            //                       borderRadius: BorderRadius.circular(100),
-            //                       boxShadow: [
-            //                         if (selectedIndex == index)
-            //                           const BoxShadow(
-            //                             color: Color(0x202FB8FF),
-            //                             blurRadius: 10,
-            //                             spreadRadius: -5,
-            //                             offset: Offset(-3, -3),
-            //                           ),
-            //                         if (selectedIndex == index)
-            //                           const BoxShadow(
-            //                             color: Color(0x209EECD9),
-            //                             blurRadius: 10,
-            //                             spreadRadius: -5,
-            //                             offset: Offset(3, 3),
-            //                           ),
-            //                       ],
-            //                     ),
-            //                     child: Image.asset(
-            //                       selectedIndex == index
-            //                           ? "${list[index].substring(0, list[index].lastIndexOf('.'))}${index + 1}.png"
-            //                           : list[index],
-            //                     ),
-            //                   ),
-            //                   onTap: () => changeIndex(index),
-            //                 ),
-            //         ),
-            //       ),
-            //       Container(
-            //         width: SizeConfig.screenWidth * 0.2,
-            //         decoration: const BoxDecoration(
-            //           boxShadow: [
-            //             BoxShadow(
-            //               color: Color(0x44ffffff),
-            //               blurRadius: 30,
-            //               spreadRadius: 18,
-            //               offset: Offset(140, 25),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: SizeConfig.blockSizeHorizontal * 38,
+                    ),
+                    child: Image.asset(homecar),
+                  ),
+                  const Gap(80),
+                  Container(
+                    height: SizeConfig.screenHeight * 0.345,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border:
+                          Border.all(color: const Color(0x22ffffff), width: 1),
+                      color: const Color(0x11FFFFFF),
+                    ),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(20),
+                      itemCount: menuList.length,
+                      itemBuilder: (context, index) {
+                        var menus = menuList[index];
+                        return SizedBox(
+                          height: SizeConfig.screenHeight * 0.08,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(menus['icon']),
+                              const Gap(15),
+                              Expanded(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    menus['title'] ?? "-",
+                                    style: TextStyle(
+                                      color: const Color(0x80EBEBF5),
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4.5,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Gap(2),
+                                  Text(
+                                    menus['subtitle'] ?? "-",
+                                    style: TextStyle(
+                                      color: const Color(0x50EBEBF5),
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                              const Gap(10),
+                              Image.asset(rightarrow),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: SizeConfig.screenHeight * 0.5,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: SizeConfig.screenHeight * 0.07,
+                    width: SizeConfig.screenWidth * 0.85,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFF27282A),
+                          blurRadius: 10,
+                          spreadRadius: 5,
+                          offset: Offset(-3, -3),
+                        ),
+                        BoxShadow(
+                          color: Color(0x70000000),
+                          blurRadius: 10,
+                          spreadRadius: 8,
+                          offset: Offset(3, 3),
+                        ),
+                      ],
+                      color: const Color(0xFF131313),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                          child: Image.asset(menulock),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const ClimateScreen(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(climate),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const TeslaDetailsTab(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(charge),
+                        ),
+                        InkWell(
+                          child: Image.asset(open),
+                        )
+                      ],
+                    )),
+              ),
+              // Positioned(
+              //   bottom: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: Stack(
+              //     alignment: Alignment.centerLeft,
+              //     children: [
+              //       SizedBox(
+              //         width: SizeConfig.screenWidth,
+              //         child: CustomPaint(
+              //           size: Size(SizeConfig.screenWidth,
+              //               SizeConfig.screenHeight * 0.09),
+              //           painter: ProfileCardPainter(
+              //             color: kcPrimary,
+              //             avatarRadius: 30,
+              //           ),
+              //         ),
+              //       ),
+              //       Row(
+              //         crossAxisAlignment: CrossAxisAlignment.center,
+              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //         children: List.generate(
+              //           list.length,
+              //           (index) => index == 2
+              //               ? const SizedBox(width: 60)
+              //               : InkWell(
+              //                   child: Container(
+              //                     width: SizeConfig.screenWidth * 0.16,
+              //                     height: SizeConfig.screenHeight * 0.08,
+              //                     decoration: BoxDecoration(
+              //                       borderRadius: BorderRadius.circular(100),
+              //                       boxShadow: [
+              //                         if (selectedIndex == index)
+              //                           const BoxShadow(
+              //                             color: Color(0x202FB8FF),
+              //                             blurRadius: 10,
+              //                             spreadRadius: -5,
+              //                             offset: Offset(-3, -3),
+              //                           ),
+              //                         if (selectedIndex == index)
+              //                           const BoxShadow(
+              //                             color: Color(0x209EECD9),
+              //                             blurRadius: 10,
+              //                             spreadRadius: -5,
+              //                             offset: Offset(3, 3),
+              //                           ),
+              //                       ],
+              //                     ),
+              //                     child: Image.asset(
+              //                       selectedIndex == index
+              //                           ? "${list[index].substring(0, list[index].lastIndexOf('.'))}${index + 1}.png"
+              //                           : list[index],
+              //                     ),
+              //                   ),
+              //                   onTap: () => changeIndex(index),
+              //                 ),
+              //         ),
+              //       ),
+              //       Container(
+              //         width: SizeConfig.screenWidth * 0.2,
+              //         decoration: const BoxDecoration(
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Color(0x44ffffff),
+              //               blurRadius: 30,
+              //               spreadRadius: 18,
+              //               offset: Offset(140, 25),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
