@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kcBG,
       floatingActionButton: Container(
-        margin: const EdgeInsets.only(bottom: 30),
+        margin: const EdgeInsets.only(bottom: 40),
         child: FloatingActionButton(
           onPressed: () {},
           child: Image.asset(plus),
@@ -49,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const HomeTab(),
                 const TeslaDetailsTab(),
                 Container(),
-                const TeslaDetailsTab(),
-                const TeslaDetailsTab(),
+                Container(),
+                Container(),
               ],
             ),
           ),
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomPaint(
                   size: Size(
                     SizeConfig.screenWidth,
-                    SizeConfig.screenHeight * 0.1,
+                    SizeConfig.screenHeight * 0.07,
                   ),
                   painter: ProfileCardPainter(
                     color: kcPrimary,
@@ -110,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  width: SizeConfig.screenWidth * 0.2,
+                  width: SizeConfig.screenWidth * 0.1,
+                  height: SizeConfig.screenWidth * 0.05,
                   decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -162,53 +163,64 @@ class ProfileCardPainter extends CustomPainter {
   void _drawBackground(Canvas canvas, Rect shapeBounds, Size size) {
     // Layer 1
 
+    // Layer 1
+
     Paint paintFill0 = Paint()
-      ..color = const Color.fromARGB(255, 36, 35, 35)
+      ..color = const Color.fromARGB(255, 33, 34, 34)
       ..style = PaintingStyle.fill
       ..strokeWidth = size.width * 0.00
       ..strokeCap = StrokeCap.butt
       ..strokeJoin = StrokeJoin.miter;
 
     Path path_0 = Path();
-    path_0.moveTo(size.width * 0.0024833, size.height * 0.4835667);
-    path_0.quadraticBezierTo(size.width * 0.0365250, size.height * 0.3363333,
-        size.width * 0.0836083, size.height * 0.3280000);
+    path_0.moveTo(size.width * -0.0011111, size.height * 0.5000000);
     path_0.cubicTo(
-        size.width * 0.1552750,
-        size.height * 0.2996667,
-        size.width * 0.2246750,
-        size.height * 0.2787667,
-        size.width * 0.4046750,
-        size.height * 0.3437667);
+        size.width * 0.0180556,
+        size.height * 0.2975000,
+        size.width * 0.0733333,
+        size.height * 0.0975000,
+        size.width * 0.1133333,
+        size.height * -0.0100000);
     path_0.cubicTo(
-        size.width * 0.4509667,
-        size.height * 0.4296000,
-        size.width * 0.4106167,
-        size.height * 0.6206000,
-        size.width * 0.5041583,
-        size.height * 0.6564333);
+        size.width * 0.1822222,
+        size.height * -0.0062500,
+        size.width * 0.3200000,
+        size.height * 0.0012500,
+        size.width * 0.3888889,
+        size.height * 0.0050000);
     path_0.cubicTo(
-        size.width * 0.5977000,
-        size.height * 0.6164333,
-        size.width * 0.5573167,
-        size.height * 0.4189333,
-        size.width * 0.5889833,
-        size.height * 0.3339333);
+        size.width * 0.4283333,
+        size.height * 0.1525000,
+        size.width * 0.4116667,
+        size.height * 0.2725000,
+        size.width * 0.4988889,
+        size.height * 0.2700000);
     path_0.cubicTo(
-        size.width * 0.6989833,
-        size.height * 0.2747667,
-        size.width * 0.8296667,
-        size.height * 0.3077667,
-        size.width * 0.9177583,
-        size.height * 0.3391667);
-    path_0.quadraticBezierTo(size.width * 0.9753250, size.height * 0.3403667,
-        size.width * 1.0033250, size.height * 0.5240000);
-    path_0.lineTo(size.width * 1.0011083, size.height * 1.0021333);
-    path_0.lineTo(size.width * 0.0003833, size.height * 0.9992333);
-    path_0.lineTo(size.width * 0.0024833, size.height * 0.4835667);
+        size.width * 0.5991667,
+        size.height * 0.2850000,
+        size.width * 0.5619444,
+        size.height * 0.1437500,
+        size.width * 0.6111111,
+        0);
+    path_0.cubicTo(size.width * 0.6636111, 0, size.width * 0.8208333, 0,
+        size.width * 0.8911111, 0);
+    path_0.cubicTo(
+        size.width * 0.9488889,
+        size.height * 0.1425000,
+        size.width * 0.9955556,
+        size.height * 0.3575000,
+        size.width * 1.0022222,
+        size.height * 0.5100000);
+    path_0.quadraticBezierTo(size.width * 1.0025000, size.height * 0.6362500,
+        size.width * 1.0033333, size.height * 1.0150000);
+    path_0.lineTo(size.width * -0.0011111, size.height * 1.0100000);
+    path_0.quadraticBezierTo(size.width * -0.0011111, size.height * 0.8825000,
+        size.width * -0.0011111, size.height * 0.5000000);
     path_0.close();
 
     canvas.drawPath(path_0, paintFill0);
+
+    // Layer 1
 
     // Layer 1
   }

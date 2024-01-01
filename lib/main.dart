@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tesla_demo/constants/theme.dart';
-import 'package:tesla_demo/screens/home/home_screen.dart';
+
+import 'screens/lock_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tesla App Demo',
       theme: themeData,
-      // home: const LockScreen(),
-      home: const HomeScreen(),
+      home: const LockScreen(),
+      // home: const HomeScreen(),
       // home: const TeslaDetailsScreen(),
     );
   }

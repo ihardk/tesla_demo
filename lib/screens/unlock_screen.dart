@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
-import 'package:tesla_demo/screens/home/tab/home_tab.dart';
+import 'package:tesla_demo/screens/home/home_screen.dart';
+import 'package:tesla_demo/screens/lock_screen.dart';
 
 import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
@@ -16,44 +18,46 @@ class UnLockScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: SizeConfig.screenWidth * 2,
+        height: SizeConfig.screenHeight,
         decoration: const BoxDecoration(
           gradient: unlockBGLinear,
         ),
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
+            Container(
               height: SizeConfig.screenHeight * 0.35,
               width: SizeConfig.screenWidth * 0.6,
-              child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x282FB8FF),
-                      blurRadius: 100,
-                      offset: Offset(0, -20),
-                    ),
-                    BoxShadow(
-                      color: Color(0x119EECD9),
-                      blurRadius: 100,
-                      offset: Offset(0, 20),
-                    ),
-                  ],
-                ),
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x282FB8FF),
+                    blurRadius: 100,
+                    offset: Offset(0, -20),
+                  ),
+                  BoxShadow(
+                    color: Color(0x119EECD9),
+                    blurRadius: 100,
+                    offset: Offset(0, 20),
+                  ),
+                ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Image.asset(unlockimage),
+            Text(
+              "Tesla Model S",
+              style: Theme.of(context).textTheme.displayMedium,
+            ).animate().moveY(
+                  duration: const Duration(milliseconds: 900),
+                  begin: 0,
+                  end: -160,
                 ),
-              ],
-            ),
+            Image.asset(
+              unlockimage,
+            ).animate().scaleXY(
+                  duration: const Duration(milliseconds: 1200),
+                  begin: 0.5,
+                  end: 1,
+                ),
             Positioned(
               bottom: SizeConfig.blockSizeHorizontal * 20,
               child: Container(
@@ -89,11 +93,21 @@ class UnLockScreen extends StatelessWidget {
                   ],
                 ),
                 child: Row(
-                  children: const [
-                    SizedBox(width: 10),
-                    Text("Lock"),
-                    Spacer(),
-                    RoundedIconButton(icon: unlock1),
+                  children: [
+                    const SizedBox(width: 10),
+                    const Text("Lock"),
+                    const Spacer(),
+                    RoundedIconButton(
+                      icon: unlock1,
+                      onTap: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const LockScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -106,7 +120,7 @@ class UnLockScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (_) => const HomeTab(),
+                      builder: (_) => const HomeScreen(),
                     ),
                     (route) => false,
                   );
