@@ -126,7 +126,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   child: Image.asset(homecar),
                 ),
-                const Gap(30),
+                const Gap(80),
                 Container(
                   height: SizeConfig.screenHeight * 0.345,
                   margin:

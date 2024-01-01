@@ -32,112 +32,97 @@ class _HomeScreenState extends State<HomeScreen> {
         valueListenable: homeTabIndex,
         builder: (context, _, __) {
           return Scaffold(
-            // floatingActionButton: Container(
-            //   // margin: const EdgeInsets.only(bottom: 30),
-            //   child: FloatingActionButton(
-            //     onPressed: () {},
-            //     child: Image.asset(plus),
-            //   ),
-            // ),
-            // floatingActionButtonLocation:
-            //     FloatingActionButtonLocation.centerFloat,
-
-            // floatingActionButton: FloatingActionButton(
-            //   backgroundColor: primaryColor,
-            //   onPressed: () {
-            //     if ((Get.find<AuthController>().setUp?.adInterstitialId ?? "")
-            //         .isNotEmpty) {
-            //       Get.find<AdMobController>().showInterstitialAd();
-            //     }
-            //     Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (_) => const UploadNewsScreen()));
-            //   },
-            //   shape: ContinuousRectangleBorder(
-            //       borderRadius: BorderRadius.circular(15)),
-            //   child: const Icon(
-            //     Icons.add_rounded,
-            //     size: 28,
-            //   ),
-            // ),
-            body: Column(
+            floatingActionButton: Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: Image.asset(plus),
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            body: Stack(
               children: [
-                Expanded(
-                  child: IndexedStack(
-                    index: homeTabIndex.value,
-                    children: const [
-                      HomeTab(),
-                      TeslaDetailsTab(),
-                    ],
-                  ),
+                IndexedStack(
+                  index: homeTabIndex.value,
+                  children: const [
+                    HomeTab(),
+                    TeslaDetailsTab(),
+                  ],
                 ),
-                Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.screenWidth,
-                      child: CustomPaint(
-                        size: Size(SizeConfig.screenWidth,
-                            SizeConfig.screenHeight * 0.09),
-                        painter: ProfileCardPainter(
-                          color: kcPrimary,
-                          avatarRadius: 30,
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.screenWidth,
+                        child: CustomPaint(
+                          size: Size(SizeConfig.screenWidth,
+                              SizeConfig.screenHeight * 0.09),
+                          painter: ProfileCardPainter(
+                            color: kcPrimary,
+                            avatarRadius: 30,
+                          ),
                         ),
                       ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: List.generate(
-                        list.length,
-                        (index) => index == 2
-                            ? const SizedBox(width: 60)
-                            : InkWell(
-                                child: Container(
-                                  width: SizeConfig.screenWidth * 0.16,
-                                  height: SizeConfig.screenHeight * 0.08,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    boxShadow: [
-                                      if (homeTabIndex.value == index)
-                                        const BoxShadow(
-                                          color: Color(0x202FB8FF),
-                                          blurRadius: 10,
-                                          spreadRadius: -5,
-                                          offset: Offset(-3, -3),
-                                        ),
-                                      if (homeTabIndex.value == index)
-                                        const BoxShadow(
-                                          color: Color(0x209EECD9),
-                                          blurRadius: 10,
-                                          spreadRadius: -5,
-                                          offset: Offset(3, 3),
-                                        ),
-                                    ],
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(
+                          list.length,
+                          (index) => index == 2
+                              ? const SizedBox(width: 60)
+                              : InkWell(
+                                  child: Container(
+                                    width: SizeConfig.screenWidth * 0.16,
+                                    height: SizeConfig.screenHeight * 0.08,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      boxShadow: [
+                                        if (homeTabIndex.value == index)
+                                          const BoxShadow(
+                                            color: Color(0x202FB8FF),
+                                            blurRadius: 10,
+                                            spreadRadius: -5,
+                                            offset: Offset(-3, -3),
+                                          ),
+                                        if (homeTabIndex.value == index)
+                                          const BoxShadow(
+                                            color: Color(0x209EECD9),
+                                            blurRadius: 10,
+                                            spreadRadius: -5,
+                                            offset: Offset(3, 3),
+                                          ),
+                                      ],
+                                    ),
+                                    child: Image.asset(
+                                      homeTabIndex.value == index
+                                          ? "${list[index].substring(0, list[index].lastIndexOf('.'))}${index + 1}.png"
+                                          : list[index],
+                                    ),
                                   ),
-                                  child: Image.asset(
-                                    homeTabIndex.value == index
-                                        ? "${list[index].substring(0, list[index].lastIndexOf('.'))}${index + 1}.png"
-                                        : list[index],
-                                  ),
+                                  onTap: () => changeIndex(index),
                                 ),
-                                onTap: () => changeIndex(index),
-                              ),
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.2,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0x44ffffff),
-                            blurRadius: 30,
-                            spreadRadius: 18,
-                            offset: Offset(140, 25),
-                          ),
-                        ],
+                      Container(
+                        width: SizeConfig.screenWidth * 0.2,
+                        decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x44ffffff),
+                              blurRadius: 30,
+                              spreadRadius: 18,
+                              offset: Offset(140, 25),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
