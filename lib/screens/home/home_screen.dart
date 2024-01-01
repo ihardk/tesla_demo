@@ -45,11 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: IndexedStack(
               index: homeTabIndex.value,
-              children: const [
-                HomeTab(),
-                TeslaDetailsTab(),
-                TeslaDetailsTab(),
-                TeslaDetailsTab(),
+              children: [
+                const HomeTab(),
+                const TeslaDetailsTab(),
+                Container(),
+                const TeslaDetailsTab(),
+                const TeslaDetailsTab(),
               ],
             ),
           ),
