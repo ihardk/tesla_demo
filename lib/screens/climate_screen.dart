@@ -38,6 +38,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: SizeConfig.screenHeight * 0.12,
+        automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -45,7 +46,12 @@ class _ClimateScreenState extends State<ClimateScreen> {
               padding: const EdgeInsets.only(
                 right: 20,
               ),
-              child: const RoundedIconButton(icon: user),
+              child: RoundedIconButton(
+                icon: leftarrow,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
             Expanded(
               child: Container(
@@ -65,7 +71,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
             padding: const EdgeInsets.only(
               right: 20,
             ),
-            child: const RoundedIconButton(icon: user),
+            child: const RoundedIconButton(icon: setting),
           ),
         ],
       ),
@@ -220,7 +226,7 @@ class _ClimateScreenState extends State<ClimateScreen> {
                         color: Color(0x3056CCF2),
                         blurRadius: 100,
                         spreadRadius: 10,
-                        offset: Offset(0, 10),
+                        // offset: Offset(0, 10),
                       ),
                     ],
                   ),

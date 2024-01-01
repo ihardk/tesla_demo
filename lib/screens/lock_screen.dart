@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
+import 'package:tesla_demo/screens/unlock_screen.dart';
 
 import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
@@ -63,12 +64,20 @@ class LockScreen extends StatelessWidget {
                   ],
                 ),
                 child: Row(
-                  children: const [
-                    SizedBox(width: 10),
-                    Text("Unlock"),
-                    Spacer(),
+                  children: [
+                    const SizedBox(width: 10),
+                    const Text("Unlock"),
+                    const Spacer(),
                     RoundedIconButton(
                       icon: lock1,
+                      onTap: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const UnLockScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
                     ),
                   ],
                 ),

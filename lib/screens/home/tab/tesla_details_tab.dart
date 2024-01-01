@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'dart:ui' as ui;
-import '../constants/images.dart';
-import '../constants/my_colors.dart';
-import '../constants/size_config.dart';
-import '../constants/theme.dart';
-import '../widgets/round_icon_button.dart';
+import '../../../constants/images.dart';
+import '../../../constants/my_colors.dart';
+import '../../../constants/size_config.dart';
+import '../../../constants/theme.dart';
+import '../../../widgets/round_icon_button.dart';
 
-class TeslaDetailsScreen extends StatefulWidget {
-  const TeslaDetailsScreen({super.key});
+class TeslaDetailsTab extends StatefulWidget {
+  const TeslaDetailsTab({super.key});
 
   @override
-  State<TeslaDetailsScreen> createState() => _TeslaDetailsScreenState();
+  State<TeslaDetailsTab> createState() => _TeslaDetailsTabState();
 }
 
-class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
+class _TeslaDetailsTabState extends State<TeslaDetailsTab> {
   bool containerExpanded = false;
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: SizeConfig.screenHeight * 0.12,
+        automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -29,7 +30,12 @@ class _TeslaDetailsScreenState extends State<TeslaDetailsScreen> {
               padding: const EdgeInsets.only(
                 right: 20,
               ),
-              child: const RoundedIconButton(icon: leftarrow),
+              child: RoundedIconButton(
+                icon: leftarrow,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
             Expanded(
               child: Container(

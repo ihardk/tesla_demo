@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tesla_demo/constants/images.dart';
 import 'package:tesla_demo/constants/theme.dart';
+import 'package:tesla_demo/screens/home/tab/home_tab.dart';
 
 import '../constants/my_colors.dart';
 import '../constants/size_config.dart';
@@ -100,7 +101,17 @@ class UnLockScreen extends StatelessWidget {
             Positioned(
               top: SizeConfig.blockSizeHorizontal * 15,
               right: SizeConfig.blockSizeHorizontal * 8,
-              child: const RoundedIconButton(icon: setting),
+              child: RoundedIconButton(
+                icon: setting,
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (_) => const HomeTab(),
+                    ),
+                    (route) => false,
+                  );
+                },
+              ),
             ),
           ],
         ),
