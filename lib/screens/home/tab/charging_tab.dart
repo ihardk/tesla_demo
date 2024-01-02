@@ -253,8 +253,9 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Text("0%"),
-                    Text(""),
-                    Text(""),
+                    Text(" "),
+                    Text(" "),
+                    Text(" "),
                     Text("75%"),
                     Text("100%")
                   ],
