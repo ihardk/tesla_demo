@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-import 'package:tesla_demo/screens/home/tab/tesla_details_tab.dart';
+import 'package:tesla_demo/screens/home/tab/charging_tab.dart';
 
 import '../../constants/images.dart';
 import '../../constants/my_colors.dart';
@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
             child: IndexedStack(
@@ -56,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(
             height: SizeConfig.screenHeight * 0.1,
+            width: SizeConfig.screenWidth,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -109,18 +109,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                   ),
                 ),
-                Container(
-                  width: SizeConfig.screenWidth * 0.1,
-                  height: SizeConfig.screenWidth * 0.05,
-                  decoration: const BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x44ffffff),
-                        blurRadius: 30,
-                        spreadRadius: 18,
-                        offset: Offset(140, 25),
-                      ),
-                    ],
+                Positioned(
+                  bottom: 10,
+                  child: Container(
+                    width: SizeConfig.screenWidth * 0.1,
+                    height: SizeConfig.screenWidth * 0.05,
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x44ffffff),
+                          blurRadius: 30,
+                          spreadRadius: 30,
+                          offset: Offset(0, 25),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

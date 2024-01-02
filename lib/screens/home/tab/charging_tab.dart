@@ -5,6 +5,7 @@ import '../../../constants/images.dart';
 import '../../../constants/my_colors.dart';
 import '../../../constants/size_config.dart';
 import '../../../constants/theme.dart';
+import '../../../widgets/custom_slider.dart';
 import '../../../widgets/round_icon_button.dart';
 
 class TeslaDetailsTab extends StatefulWidget {
@@ -220,26 +221,48 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
           size: Size(
             SizeConfig.screenWidth * 0.75,
             (SizeConfig.safeBlockVertical * 25 * 0.17).toDouble(),
-          ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+          ),
           painter: BatteryPaint(value: value),
         ),
-        const Gap(80),
-        // CustomSlider(
-        //   trackHeight: 10,
-        //   max: 1,
-        //   onChanged: (value) {
-        //     setState(() {
-        //       this.value = value;
-        //     });
-        //   },
-        //   inActiveTrackColor: kcBGGrey,
-        //   activeTrackColor: Colors.cyan,
-        //   linearGradient: const LinearGradient(colors: [
-        //     Colors.cyan,
-        //     Colors.blue,
-        //   ]),
-        //   min: 0,
-        // )
+        const Gap(30),
+        const Text("Set Charging Limit"),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CustomSlider(
+                trackHeight: 10,
+                max: 1,
+                btnActive: true,
+                onChanged: (value) {
+                  setState(() {
+                    this.value = value;
+                  });
+                },
+                inActiveTrackColor: kcBGGrey,
+                activeTrackColor: Colors.cyan,
+                linearGradient: const LinearGradient(colors: [
+                  Colors.cyan,
+                  Colors.blue,
+                ]),
+                min: 0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text("0%"),
+                    Text(""),
+                    Text(""),
+                    Text("75%"),
+                    Text("100%")
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -270,13 +293,13 @@ class BatteryPaint extends CustomPainter {
   void _batteryShape(Size size, Canvas canvas) {
     valueFilledWidth = size.width * value;
     Paint topPaint = _batteryPaint(size, valueFilledWidth);
-    if (value > 0.04) {
+    if (value > 0.06) {
       filledPath =
           _drawBatteryPath(height: size.height, width: valueFilledWidth);
     }
     topPath = _drawBatteryPath(height: size.height, width: size.width);
     _drawBatteryBorder(size, canvas);
-    if (value > 0.04) _bottomRect(size, canvas);
+    // if (value > 0.06) _bottomRect(size, canvas);
     canvas.drawPath(filledPath, topPaint);
   }
 

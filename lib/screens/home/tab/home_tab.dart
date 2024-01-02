@@ -6,7 +6,7 @@ import 'package:tesla_demo/screens/climate_screen.dart';
 
 import '../../../constants/size_config.dart';
 import '../../../widgets/round_icon_button.dart';
-import 'tesla_details_tab.dart';
+import 'charging_tab.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
