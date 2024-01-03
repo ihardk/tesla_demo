@@ -5,6 +5,9 @@ This Flutter package provides a visually stunning rounded progress bar inspired 
 
 Key Features:
 Custom Slider: Smooth sliding experience with a gradient-filled track.
+
 Blurry Effect: Achieve a modern UI with strategically applied blurry effects.
+
 Rounded Progress Bar: Visually appealing circular design with dynamic progress feedback.
+
 Progress Arc: Real-time updates with a dynamic circular arc within the progress bar.
