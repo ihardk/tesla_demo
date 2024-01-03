@@ -241,23 +241,23 @@ class _MyGlowSliderState extends State<MyGlowSlider> {
                 },
                 inActiveTrackColor: kcBGGrey,
                 activeTrackColor: Colors.cyan,
-                linearGradient: const LinearGradient(colors: [
-                  Colors.cyan,
-                  Colors.blue,
-                ]),
+                linearGradient: const LinearGradient(
+                  colors: [
+                    Colors.cyan,
+                    Colors.blue,
+                  ],
+                ),
                 min: 0,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text("0%"),
-                    Text(" "),
-                    Text(" "),
-                    Text(" "),
-                    Text("75%"),
-                    Text("100%")
+                  children: [
+                    Flexible(child: Container()),
+                    const Text("75%"),
+                    Gap(SizeConfig.screenWidth * 0.11),
+                    const Text("100%")
                   ],
                 ),
               ),
