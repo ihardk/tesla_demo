@@ -1,16 +1,10 @@
 # tesla_demo
 
-A new Flutter project.
+Tesla-Inspired Rounded Progress Bar for Flutter
+This Flutter package provides a visually stunning rounded progress bar inspired by the Tesla app. Elevate your UI design with a dynamic circular arc, gradient-filled circles, and a custom slider. Follow our step-by-step guide to seamlessly integrate these components into your Flutter app. Enhance the user experience and create a sleek, Tesla-inspired progress display.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Key Features:
+Custom Slider: Smooth sliding experience with a gradient-filled track.
+Blurry Effect: Achieve a modern UI with strategically applied blurry effects.
+Rounded Progress Bar: Visually appealing circular design with dynamic progress feedback.
+Progress Arc: Real-time updates with a dynamic circular arc within the progress bar.
