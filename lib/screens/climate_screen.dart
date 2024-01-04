@@ -164,10 +164,10 @@ class _ClimateScreenState extends State<ClimateScreen> {
                               Text(
                                 "20°",
                                 style: TextStyle(
-                                    fontSize:
-                                        SizeConfig.safeBlockHorizontal * 7,
-                                    color: kcWhite,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: SizeConfig.safeBlockHorizontal * 7,
+                                  color: kcWhite,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               InkWell(
                                 child: Image.asset(

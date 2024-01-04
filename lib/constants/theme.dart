@@ -22,6 +22,19 @@ const homeBGLinear = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
+
+const blueCyanGradient = LinearGradient(
+  colors: [
+    Color(0xFF2A2D32),
+    Color(0xFF131313),
+    Color(0xFF131313),
+  ],
+  // stops: [0.2, 1],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+);
+
+
 const lockBGLinear = LinearGradient(
   colors: [
     Color(0xFF292C31),
